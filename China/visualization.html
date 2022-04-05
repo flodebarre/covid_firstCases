@@ -75,14 +75,14 @@ var dataSets = {
 		columns:["nb_cases_Confirmed","nb_cases_ClinicallyDiagnosed"],
 		confirmed:["nb_cases_Confirmed"]
 	},
-	"WHO 2021 fig.24":{
+	"WHO 2021 fig 24":{
 		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/WHO_2021/data_WHO_fig24.csv?token=GHSAT0AAAAAABRF2UL37GKHR2LTDILRLBNAYSV6Z6Q",
 		ind_date:0,
 		columns:["nb_Cases_MarketExposure","nb_Cases_NoMarket"]
 	}
 };
 
-var initWithDatasets = ["Huang","Li","WHO 2021 fig.24"];
+var initWithDatasets = ["Huang","Li","WHO 2021 fig 24"];
 var prettyColumns = { 
 	"nb_confirmed":"Confirmed",
 	"nb_cases_Confirmed":"Confirmed",
@@ -182,7 +182,9 @@ function parseAndCreateSeriesToDraw(n,text) {
 		var d = data[columnsTodraw[j]];
 		var t = [];
 		for (var l = 0; l < dayList.length; l++) {
-			if (d[dayList[l]] && d[dayList[l]].length) t.push(parseFloat(d[dayList[l]]));
+			var v = parseFloat(d[dayList[l]]);
+			if (isNaN(v)) v = 0;
+			if (d[dayList[l]] && d[dayList[l]].length) t.push(v);
 			else t.push(0);
 		}
 		var columnName = columnsTodraw[j];
