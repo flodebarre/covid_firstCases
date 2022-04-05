@@ -1,0 +1,182 @@
+<html>
+<body>
+    <style>
+    body {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        box-sizing: border-box;
+    }
+    hr {
+        all: initial;
+    }
+    p.highcharts-description {
+        background-color: #e0e0e0;
+        padding: 0.5em;
+        margin: 0;
+    }
+    p.highcharts-description code {
+        background-color: #EBEBEB;
+        color: #9E0000;
+    }
+	#container {
+		height:70%;
+	}
+    </style>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<select id="selectData"></select>
+    
+<figure class="highcharts-figure">
+    <div id="container"></div>
+    <p class="highcharts-description">
+       Onset curves from different sources
+    </p>
+</figure>
+
+    <!--[if lt IE 9]>
+      <script src="https://code.highcharts.com/modules/oldie.js"></script>
+    <![endif]-->
+    
+<script defer type="text/javascript">
+
+"use strict";
+
+
+var dataSets = {
+	Huang: {
+		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/Huang-etal_2020/data_Huang2020.csv?token=GHSAT0AAAAAABRF2UL23VKMX5MCRQFKHE72YSV2U2Q",
+		columns:["cases_HuananExposure","cases_NoHuananExposure"]
+	},
+	WHO_2020:{
+		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/WHO_2020/data_WHO2020.csv?token=GHSAT0AAAAAABRF2UL325R3KWO7VQYB4ZXGYSV3OTQ",
+		columns:["nb_confirmed","nb_clinicallyDiagnosed","nb_suspected","nb_asymp"]
+	},
+	ChinaCDC_2020:{
+		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/CCDC_2020/data_CCDC.csv?token=GHSAT0AAAAAABRF2UL2K3ILM6DANRRVEX5MYSV3T2Q",
+		columns:["nb_cases_Confirmed","nb_cases_Suspected","nb_cases_ClinicallyDiagnosed"]
+	},
+	Li_et_al:{
+		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/Li-etal_2020/data_Li2020.csv?token=GHSAT0AAAAAABRF2UL2HBZIJLFSXHL7L4BQYSV3UUQ",
+		columns:["cases_HuananExposure","cases_NoHuananExposure"]
+	},
+	WHO_2021:{
+		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/WHO_2021/data_WHO.csv?token=GHSAT0AAAAAABRF2UL2JFCB4AH7WGVQSO7AYSV3VOQ",
+		ind_date:1,
+		columns:["nb_cases_Confirmed","nb_cases_ClinicallyDiagnosed"]
+	}
+	
+};
+
+
+var sel = document.getElementById("selectData");
+for (var d in dataSets) {
+	var opt = document.createElement("option");
+	opt.value = d;
+	opt.innerText = d;
+	sel.appendChild(opt);
+}
+sel.onchange = function () {
+	for (var c = 0; c < sel.children.length; c++) {
+		if (sel.children[c].selected) loadDataset(sel.children[c].innerText);
+	}
+}
+
+var dayList = [];
+for (var j = 1; j <= 31; j++) {
+	var s = j.toString();
+	if (j < 10) s = "0"+s;
+	dayList.push("2019-12-"+s);
+}
+
+function parseAndDrawDataset(n,text) {
+	var rows = text.split("\n");
+	var data = {};
+	var ind_date = 0;
+	if ("ind_date" in dataSets[n]) ind_date = dataSets[n].ind_date;
+	var cols = rows[0].split(",");
+	for (var c = 0; c < cols.length; c++) cols[c]=cols[c].replaceAll('"','');
+	for (var j = 0; j < cols.length;j++) data[cols[j]] = {};
+	for (var i = 1; i < rows.length;i++) {
+		var r = rows[i].split(",");
+		if (r.length == cols.length) {
+			for (var j = 0; j < cols.length;j++) data[cols[j]][r[ind_date]]=r[j];
+		}
+	}
+	
+	var dates = dayList; //data[dataSets[n].date];
+	var seriesToDraw = [];
+	for (var j = dataSets[n].columns.length-1;j>=0; j--) {
+		var d = data[dataSets[n].columns[j]];
+		var t = [];
+		for (var l = 0; l < dayList.length; l++) {
+			if (d[dayList[l]] && d[dayList[l]].length) t.push(parseFloat(d[dayList[l]]));
+			else t.push(0);
+		}
+		seriesToDraw.push({
+			name: dataSets[n].columns[j],
+			data: t,
+			stack: 'm'
+		  });
+	}
+	
+		
+	Highcharts.chart('container', {
+	  chart: {
+		type: 'column'
+	  },
+	  title: {
+		text: 'Timeline by Onsets - dataset ' + n
+	  },
+	  xAxis: {
+		categories: dates
+	  },
+	  yAxis: {
+		allowDecimals: false,
+		min: 0,
+		title: {
+		  text: 'Onset curve'
+		}
+	  },
+	  tooltip: {
+		formatter: function formatter() {
+			//alert(this.x);
+		  //return '<b>' + this.x + '</b><br/> '+ this.series.name+ " : "+ this.y+"<br/><br/>"+ namesbyDate[parseInt(this.x.split("2019-12-")[1])-1]+ '<br/>' + 'Total: ' + this.point.stackTotal;
+		  return '<b>' + this.x + " " + this.series.name+ " : "+ this.y+"</b>" + '<br/>' + 'Total: ' + this.point.stackTotal;
+		}
+	  },
+	  plotOptions: {
+		column: {
+		  stacking: 'normal'
+		}
+	  },
+	  series: seriesToDraw
+	});
+	
+	
+	
+}
+function loadDataset(n) {
+	
+	function reqListener () {
+		parseAndDrawDataset(n,this.responseText);
+	}
+	var oReq = new XMLHttpRequest();
+	oReq.onload = reqListener;
+	oReq.open("get", dataSets[n].url, true);
+	oReq.send();
+
+
+}
+	
+loadDataset("Huang");
+
+	
+	
+</script>
+</body>
+</html>
