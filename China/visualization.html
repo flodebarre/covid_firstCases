@@ -3,7 +3,7 @@
     <style>
     body {
         max-width: 100%;
-        margin: 0;
+        margin: 10;
         padding: 0;
         font-family: "IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
         box-sizing: border-box;
@@ -30,13 +30,16 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <center><div id="selectData"></div></center>
-    
+<div style="float: right;" id="filters"></div> 
 <figure class="highcharts-figure">
     <div id="container"></div>
     <p class="highcharts-description">
        Onset curves from different sources
     </p>
+	<div style="float:right;"> <a href="https://github.com/flodebarre/covid_firstCases/">github</a></div>
 </figure>
+<br/>
+
 
     <!--[if lt IE 9]>
       <script src="https://code.highcharts.com/modules/oldie.js"></script>
@@ -48,44 +51,83 @@
 
 
 var dataSets = {
-	Huang: {
+	"Huang": {
 		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/Huang-etal_2020/data_Huang2020.csv?token=GHSAT0AAAAAABRF2UL23VKMX5MCRQFKHE72YSV2U2Q",
 		columns:["cases_HuananExposure","cases_NoHuananExposure"]
 	},
-	WHO_2020:{
-		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/WHO_2020/data_WHO2020.csv?token=GHSAT0AAAAAABRF2UL325R3KWO7VQYB4ZXGYSV3OTQ",
-		columns:["nb_confirmed","nb_clinicallyDiagnosed","nb_suspected","nb_asymp"]
-	},
-	ChinaCDC_2020:{
-		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/CCDC_2020/data_CCDC.csv?token=GHSAT0AAAAAABRF2UL2K3ILM6DANRRVEX5MYSV3T2Q",
-		columns:["nb_cases_Confirmed","nb_cases_Suspected","nb_cases_ClinicallyDiagnosed"]
-	},
-	Li_et_al:{
+	"Li":{
 		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/Li-etal_2020/data_Li2020.csv?token=GHSAT0AAAAAABRF2UL2HBZIJLFSXHL7L4BQYSV3UUQ",
 		columns:["cases_HuananExposure","cases_NoHuananExposure"]
 	},
-	WHO_2021:{
+	"ChinaCDC 2020":{
+		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/CCDC_2020/data_CCDC.csv?token=GHSAT0AAAAAABRF2UL2K3ILM6DANRRVEX5MYSV3T2Q",
+		columns:["nb_cases_Confirmed","nb_cases_Suspected","nb_cases_ClinicallyDiagnosed"],
+		confirmed:["nb_cases_Confirmed"]
+	},
+	"WHO 2020":{
+		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/WHO_2020/data_WHO2020.csv?token=GHSAT0AAAAAABRF2UL325R3KWO7VQYB4ZXGYSV3OTQ",
+		columns:["nb_confirmed","nb_clinicallyDiagnosed","nb_suspected","nb_asymp"],
+		confirmed:["nb_confirmed"]
+	},
+	"WHO 2021":{
 		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/WHO_2021/data_WHO.csv?token=GHSAT0AAAAAABRF2UL2JFCB4AH7WGVQSO7AYSV3VOQ",
-		ind_date:1,
-		columns:["nb_cases_Confirmed","nb_cases_ClinicallyDiagnosed"]
+		ind_date:0,
+		columns:["nb_cases_Confirmed","nb_cases_ClinicallyDiagnosed"],
+		confirmed:["nb_cases_Confirmed"]
+	},
+	"WHO 2021 fig.24":{
+		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/WHO_2021/data_WHO_fig24.csv?token=GHSAT0AAAAAABRF2UL37GKHR2LTDILRLBNAYSV6Z6Q",
+		ind_date:0,
+		columns:["nb_Cases_MarketExposure","nb_Cases_NoMarket"]
 	}
-	
+};
+
+var initWithDatasets = ["Huang","Li","WHO 2021 fig.24"];
+var prettyColumns = {
+	"nb_confirmed":"Confirmed",
+	"nb_cases_Confirmed":"Confirmed",
+	"nb_cases_ClinicallyDiagnosed":"Clinically diagnosed",
+	"nb_cases_Suspected":"Suspected",
+	"nb_suspected":"Suspected",
+	"nb_asymp":"Asymptomatic",
+	"nb_clinicallyDiagnosed":"Clinically diagnosed",
+	"nb_Cases_MarketExposure":"Huanan",
+	"nb_Cases_NoMarket":"Non-Huanan",
+	"cases_HuananExposure":"Huanan",
+	"cases_NoHuananExposure":"Non-Huanan"
 };
 
 
 var sel = document.getElementById("selectData");
 var s = [];
-var checked = true;
+var k = 2;
 var N=0;
 var seriesToDraw = [];
 for (var d in dataSets) {
 	var tmp = "<input type='checkbox' value='"+d+"' onchange='javascript:loadDataset();'";
-	if (checked) tmp += " checked";
-	checked=false;
+	if (initWithDatasets.includes(d)) tmp += " checked";
 	tmp += "/><label>"+d+"</label>";
 	s.push(tmp)
 	sel.innerHTML = s.join("&nbsp;&nbsp;");
 }
+var filters = {"Cumulative":false,"Sum":true};
+for (var c in prettyColumns) {
+	var pc= prettyColumns[c];
+	if (!filters[pc]) {
+		filters[pc]=true;
+	}
+}
+var s = ["Filters"];
+for (var c in filters) {
+	s.push('<input type="checkbox" value="'+c+'" onchange="javascript:updateFilter(this);loadDataset();"'+ (filters[c]?"checked":"")+'><label>'+c+'</label>');
+}
+document.getElementById("filters").innerHTML = s.join("<br/>");
+function updateFilter(elem) {
+	filters[elem.value] = elem.checked;
+}
+
+
+
 
 var dayList = [];
 for (var j = 1; j <= 31; j++) {
@@ -93,8 +135,30 @@ for (var j = 1; j <= 31; j++) {
 	if (j < 10) s = "0"+s;
 	dayList.push("2019-12-"+s);
 }
+function sumStack(n,series,dates) {
+	var tmp = [];
+	for (var j = 0; j < dates.length; j++) {
+		tmp.push(0);
+	}
+	for (var c =0; c < series.length; c++) {
+		for (var j = 0; j < series[c].data.length; j++) {
+			tmp[j] += series[c].data[j];
+		}
+	}
+	return [{name:n,data:tmp,stack:n}];
+}
+function cumulativeSeries(series) {
+	for (var j = 0; j < series.length; j++) {
+		var n = 0;
+		for (var i = 0; i < series[j].data.length; i++) {
+			n += series[j].data[i];
+			series[j].data[i] = n;
+		}
+	}
+}
 
 function parseAndCreateSeriesToDraw(n,text) {
+	//var onlyConfirmed = document.getElementById("onlyConfirmed").checked;
 	var rows = text.split("\n");
 	var data = {};
 	var ind_date = 0;
@@ -111,28 +175,37 @@ function parseAndCreateSeriesToDraw(n,text) {
 	
 	var dates = dayList; //data[dataSets[n].date];
 	
-	for (var j = dataSets[n].columns.length-1;j>=0; j--) {
-		var d = data[dataSets[n].columns[j]];
+	var tmpSeriesToDraw=[];
+	var columnsTodraw = dataSets[n].columns;
+	//if (onlyConfirmed && dataSets[n].confirmed) columnsTodraw = dataSets[n].confirmed;
+	for (var j = columnsTodraw.length-1;j>=0; j--) {
+		var d = data[columnsTodraw[j]];
 		var t = [];
 		for (var l = 0; l < dayList.length; l++) {
 			if (d[dayList[l]] && d[dayList[l]].length) t.push(parseFloat(d[dayList[l]]));
 			else t.push(0);
 		}
-		seriesToDraw.push({
-			name: n+" " +dataSets[n].columns[j],
-			data: t,
-			stack: n
-		  });
+		var columnName = columnsTodraw[j];
+		if (columnsTodraw[j] in prettyColumns) columnName = prettyColumns[columnsTodraw[j]];
+		if (!(columnName in filters) || filters[columnName]) {
+			tmpSeriesToDraw.push({
+				name: n+" " + columnName,
+				data: t,
+				stack: n
+			});
+		}
 	}
-	
+	if (filters["Sum"]) tmpSeriesToDraw = sumStack(n,tmpSeriesToDraw,dates);
+	for (var j = 0; j < tmpSeriesToDraw.length; j++) seriesToDraw.push(tmpSeriesToDraw[j]);
 	N--;
 	
 	if (N == 0) {
+		if (filters["Cumulative"]) cumulativeSeries(seriesToDraw);
 		
 		Highcharts.chart('container', {
 		  chart: {
-			type: 'column'
-		  },
+			type: filters["Cumulative"] ? '':'column'
+		  }, 
 		  title: {
 			text: 'Timeline by Onsets'
 		  },
@@ -148,15 +221,13 @@ function parseAndCreateSeriesToDraw(n,text) {
 		  },
 		  tooltip: {
 			formatter: function formatter() {
-				//alert(this.x);
-				console.log(this);
-			  //return '<b>' + this.x + '</b><br/> '+ this.series.name+ " : "+ this.y+"<br/><br/>"+ namesbyDate[parseInt(this.x.split("2019-12-")[1])-1]+ '<br/>' + 'Total: ' + this.point.stackTotal;
-			  return '<b>' + this.x + "<br/> " + this.series.name+ " : "+ this.y+"</b>" + '<br/>' + 'Total: ' + this.point.stackTotal;
+				//console.log(this);
+				return '<b>' + this.x + "<br/> " + this.series.name+ " : "+ this.y+"</b>" + '<br/>' + 'Total: ' + this.point.stackTotal;
 			}
 		  },
 		  plotOptions: {
 			column: {
-			  stacking: 'normal'
+			  stacking: filters["Cumulative"] ? '':'normal'
 			}
 		  },
 		  series: seriesToDraw
