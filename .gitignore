@@ -2,3 +2,4 @@ France/*
 *.Rproj
 .DS_Store
 .Rproj.user/
+*~lock.data*
