@@ -29,7 +29,7 @@
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-<select id="selectData"></select>
+<center><div id="selectData"></div></center>
     
 <figure class="highcharts-figure">
     <div id="container"></div>
@@ -74,16 +74,17 @@ var dataSets = {
 
 
 var sel = document.getElementById("selectData");
+var s = [];
+var checked = true;
+var N=0;
+var seriesToDraw = [];
 for (var d in dataSets) {
-	var opt = document.createElement("option");
-	opt.value = d;
-	opt.innerText = d;
-	sel.appendChild(opt);
-}
-sel.onchange = function () {
-	for (var c = 0; c < sel.children.length; c++) {
-		if (sel.children[c].selected) loadDataset(sel.children[c].innerText);
-	}
+	var tmp = "<input type='checkbox' value='"+d+"' onchange='javascript:loadDataset();'";
+	if (checked) tmp += " checked";
+	checked=false;
+	tmp += "/><label>"+d+"</label>";
+	s.push(tmp)
+	sel.innerHTML = s.join("&nbsp;&nbsp;");
 }
 
 var dayList = [];
@@ -93,7 +94,7 @@ for (var j = 1; j <= 31; j++) {
 	dayList.push("2019-12-"+s);
 }
 
-function parseAndDrawDataset(n,text) {
+function parseAndCreateSeriesToDraw(n,text) {
 	var rows = text.split("\n");
 	var data = {};
 	var ind_date = 0;
@@ -109,7 +110,7 @@ function parseAndDrawDataset(n,text) {
 	}
 	
 	var dates = dayList; //data[dataSets[n].date];
-	var seriesToDraw = [];
+	
 	for (var j = dataSets[n].columns.length-1;j>=0; j--) {
 		var d = data[dataSets[n].columns[j]];
 		var t = [];
@@ -118,62 +119,78 @@ function parseAndDrawDataset(n,text) {
 			else t.push(0);
 		}
 		seriesToDraw.push({
-			name: dataSets[n].columns[j],
+			name: n+" " +dataSets[n].columns[j],
 			data: t,
-			stack: 'm'
+			stack: n
 		  });
 	}
 	
+	N--;
+	
+	if (N == 0) {
 		
-	Highcharts.chart('container', {
-	  chart: {
-		type: 'column'
-	  },
-	  title: {
-		text: 'Timeline by Onsets - dataset ' + n
-	  },
-	  xAxis: {
-		categories: dates
-	  },
-	  yAxis: {
-		allowDecimals: false,
-		min: 0,
-		title: {
-		  text: 'Onset curve'
-		}
-	  },
-	  tooltip: {
-		formatter: function formatter() {
-			//alert(this.x);
-		  //return '<b>' + this.x + '</b><br/> '+ this.series.name+ " : "+ this.y+"<br/><br/>"+ namesbyDate[parseInt(this.x.split("2019-12-")[1])-1]+ '<br/>' + 'Total: ' + this.point.stackTotal;
-		  return '<b>' + this.x + " " + this.series.name+ " : "+ this.y+"</b>" + '<br/>' + 'Total: ' + this.point.stackTotal;
-		}
-	  },
-	  plotOptions: {
-		column: {
-		  stacking: 'normal'
-		}
-	  },
-	  series: seriesToDraw
-	});
-	
-	
-	
+		Highcharts.chart('container', {
+		  chart: {
+			type: 'column'
+		  },
+		  title: {
+			text: 'Timeline by Onsets'
+		  },
+		  xAxis: {
+			categories: dates
+		  },
+		  yAxis: {
+			allowDecimals: false,
+			min: 0,
+			title: {
+			  text: 'Onset curve'
+			}
+		  },
+		  tooltip: {
+			formatter: function formatter() {
+				//alert(this.x);
+				console.log(this);
+			  //return '<b>' + this.x + '</b><br/> '+ this.series.name+ " : "+ this.y+"<br/><br/>"+ namesbyDate[parseInt(this.x.split("2019-12-")[1])-1]+ '<br/>' + 'Total: ' + this.point.stackTotal;
+			  return '<b>' + this.x + "<br/> " + this.series.name+ " : "+ this.y+"</b>" + '<br/>' + 'Total: ' + this.point.stackTotal;
+			}
+		  },
+		  plotOptions: {
+			column: {
+			  stacking: 'normal'
+			}
+		  },
+		  series: seriesToDraw
+		});
+	}
 }
-function loadDataset(n) {
+
+function getAndParseDataset(n) {
 	
 	function reqListener () {
-		parseAndDrawDataset(n,this.responseText);
+		parseAndCreateSeriesToDraw(n,this.responseText);
 	}
 	var oReq = new XMLHttpRequest();
 	oReq.onload = reqListener;
 	oReq.open("get", dataSets[n].url, true);
 	oReq.send();
 
+}
 
+function loadDataset() {
+	
+	var selectedDatasets = [];
+	var t = sel.querySelectorAll("input");
+	for (var j = 0; j < t.length; j++) {
+		if (t[j].checked) selectedDatasets.push(t[j].value);
+	}
+	N = selectedDatasets.length;
+	seriesToDraw = [];
+	
+	for (var j = 0; j < selectedDatasets.length; j++) getAndParseDataset(selectedDatasets[j]);
+	//DrawDataset(n,this.responseText);
 }
 	
-loadDataset("Huang");
+loadDataset();
 
 	
 	
