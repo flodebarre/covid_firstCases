@@ -79,6 +79,11 @@ var dataSets = {
 		url:"https://raw.githubusercontent.com/flodebarre/covid_firstCases/main/China/WHO_2021/data_WHO_fig24.csv?token=GHSAT0AAAAAABRF2UL37GKHR2LTDILRLBNAYSV6Z6Q",
 		ind_date:0,
 		columns:["nb_Cases_MarketExposure","nb_Cases_NoMarket"]
+	},
+	"Local CDC 2019":
+	{
+		url:"",
+		columns:["nb_confirmed"]
 	}
 };
 
@@ -154,6 +159,8 @@ function cumulativeSeries(series) {
 			n += series[j].data[i];
 			series[j].data[i] = n;
 		}
+		series[j].step= true;
+		series[j].marker= {enabled:false,radius: 1};
 	}
 }
 
@@ -208,6 +215,7 @@ function parseAndCreateSeriesToDraw(n,text) {
 		  chart: {
 			type: filters["Cumulative"] ? '':'column'
 		  }, 
+		  
 		  title: {
 			text: 'Timeline by Onsets'
 		  },
