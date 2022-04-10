@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">	
+	<title>Covid-19 December cases from different sources</title>
+	<meta name="description" content="Covid-19 December cases from different sources"/>
+	<meta name="twitter:card" content="summary_large_image"></meta>
+	<meta property="og:locale" content="en_EN"/>
+	<meta property="og:type" content="article"/>
+	<meta property="og:title" content="Covid-19 December cases from different sources"/>
+	<meta property="og:url" content="https://flodebarre.github.io/covid_firstCases/"/>
+	<meta property="og:image" content="https://flodebarre.github.io/covid_firstCases/miniature.jpg"/>
+	<meta property="twitter:image" content="https://flodebarre.github.io/covid_firstCases/miniature.jpg"/>
+</head>
+<body>
+    <style>
+    body {
+        max-width: 100%; 
+        margin: 10;
+        padding: 0;
+        font-family: "IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        box-sizing: border-box;
+    }
+    hr {
+        all: initial;
+    }
+    p.highcharts-description {
+        background-color: #e0e0e0;
+        padding: 0.5em;
+        margin: 0;
+    }
+    p.highcharts-description code {  
+        background-color: #EBEBEB;
+        color: #9E0000;
+    }
+	#container {
+		height:70%;
+	}
+    </style>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<center><div id="selectData"></div></center>
+<div style="float: right;" id="filters"></div> 
+<figure class="highcharts-figure">
+    <div id="container"></div>
+    <p class="highcharts-description">
+        Onset curves from different <a href="visualization.html#readme" onclick="javascript:document.getElementById('readme').hidden=false;">sources</a> <a href="visualization.html#readme" onclick="javascript:document.getElementById('readme').hidden=false;"><small>[expand]</small></a>
+    </p>
+	<div style="float:right;"> <a href="https://github.com/flodebarre/covid_firstCases/">github</a></div>
+</figure>
+<br/>
+
+
+    <!--[if lt IE 9]>
+      <script src="https://code.highcharts.com/modules/oldie.js"></script>
+    <![endif]-->
+    
+<script defer type="text/javascript">
+
+"use strict";
+
+
+var dataSets = {
+	"Huang Thelancet": {
+		url:"https://flodebarre.github.io/covid_firstCases/China/Huang-etal_2020/data_Huang2020.csv",
+		columns:["cases_HuananExposure","cases_NoHuananExposure"] 
+	},
+	"Li Nejm":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Li-etal_2020/data_Li2020.csv",
+		columns:["cases_HuananExposure","cases_NoHuananExposure"]
+	},
+	"ChinaCDC 2020":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/CCDC_2020/data_CCDC.csv",
+		columns:["nb_cases_Confirmed","nb_cases_Suspected","nb_cases_ClinicallyDiagnosed"],
+		confirmed:["nb_cases_Confirmed"]
+	},
+	"WHO 2020":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/WHO_2020/data_WHO2020.csv",
+		columns:["nb_confirmed","nb_clinicallyDiagnosed","nb_suspected","nb_asymp"],
+		confirmed:["nb_confirmed"]
+	},
+	"WHO 2021":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/WHO_2021/data_WHO.csv",
+		ind_date:0,
+		columns:["nb_cases_Confirmed","nb_cases_ClinicallyDiagnosed"],
+		confirmed:["nb_cases_Confirmed"]
+	},
+	"WHO 2021 fig 24":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/WHO_2021/data_WHO_fig24.csv",
+		ind_date:0,
+		columns:["nb_Cases_MarketExposure","nb_Cases_NoMarket"]
+	},
+	"Local CDC 2019":
+	{
+		url:"https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/data_LocalCDC_2019.csv",
+		columns:["nb_cases_Suspected"] 
+	},
+	"Drastic 2022":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Drastic_2022/data_Drastic_2022.csv",
+		columns:["nb_Huanan","nb_nonHuanan"]
+	},
+	"Yang":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Yang-etal_2020/data_Yang.csv",
+		columns:["nb_cases_Confirmed","nb_cases_Suspected"] 
+	}
+	
+};
+
+var initWithDatasets = ["Huang Thelancet","Li Nejm","WHO 2021 fig 24"];
+var prettyColumns = { 
+	"nb_confirmed":"Confirmed",
+	"nb_cases_Confirmed":"Confirmed",
+	"nb_cases_ClinicallyDiagnosed":"Clinically diagnosed",
+	"nb_cases_Suspected":"Suspected",
+	"nb_suspected":"Suspected",
+	"nb_asymp":"Asymptomatic",
+	"nb_clinicallyDiagnosed":"Clinically diagnosed",
+	"nb_Cases_MarketExposure":"Huanan",
+	"nb_Cases_NoMarket":"Non-Huanan",
+	"cases_HuananExposure":"Huanan",
+	"cases_NoHuananExposure":"Non-Huanan",
+	"nb_Huanan":"Huanan",
+	"nb_nonHuanan":"Non-Huanan"
+};
+
+
+var sel = document.getElementById("selectData");
+var s = [];
+var k = 2;
+var N=0;
+var seriesToDraw = [];
+for (var d in dataSets) {
+	var tmp = "<input type='checkbox' value='"+d+"' onchange='javascript:loadDataset();'";
+	if (initWithDatasets.includes(d)) tmp += " checked";
+	tmp += "/><label>"+d+"</label>";
+	s.push(tmp)
+	sel.innerHTML = s.join("&nbsp;&nbsp;");
+}
+var filters = {"Cumulative":false,"Sum":true};
+for (var c in prettyColumns) {
+	var pc= prettyColumns[c];
+	if (!filters[pc]) {
+		filters[pc]=true;
+	}
+}
+var s = ["Filters"];
+for (var c in filters) {
+	s.push('<input type="checkbox" value="'+c+'" onchange="javascript:updateFilter(this);loadDataset();"'+ (filters[c]?"checked":"")+'><label>'+c+'</label>');
+}
+document.getElementById("filters").innerHTML = s.join("<br/>");
+function updateFilter(elem) {
+	filters[elem.value] = elem.checked;
+}
+
+
+
+
+var dayList = [];
+for (var j = 1; j <= 31; j++) {
+	var s = j.toString();
+	if (j < 10) s = "0"+s;
+	dayList.push("2019-12-"+s);
+}
+function sumStack(n,series,dates) {
+	var tmp = [];
+	for (var j = 0; j < dates.length; j++) {
+		tmp.push(0);
+	}
+	for (var c =0; c < series.length; c++) {
+		for (var j = 0; j < series[c].data.length; j++) {
+			tmp[j] += series[c].data[j];
+		}
+	}
+	return [{name:n,data:tmp,stack:n}];
+}
+function cumulativeSeries(series) {
+	for (var j = 0; j < series.length; j++) {
+		var n = 0;
+		for (var i = 0; i < series[j].data.length; i++) {
+			n += series[j].data[i];
+			series[j].data[i] = n;
+		}
+		series[j].step= true;
+		series[j].marker= {enabled:false,radius: 1};
+	}
+}
+
+function parseAndCreateSeriesToDraw(n,text) {
+	//var onlyConfirmed = document.getElementById("onlyConfirmed").checked;
+	var rows = text.split("\n");
+	var data = {};
+	var ind_date = 0;
+	if ("ind_date" in dataSets[n]) ind_date = dataSets[n].ind_date;
+	var cols = rows[0].split(",");
+	for (var c = 0; c < cols.length; c++) cols[c]=cols[c].replaceAll('"','');
+	for (var j = 0; j < cols.length;j++) data[cols[j]] = {};
+	for (var i = 1; i < rows.length;i++) {
+		var r = rows[i].split(",");
+		if (r.length == cols.length) {
+			for (var j = 0; j < cols.length;j++) data[cols[j]][r[ind_date]]=r[j];
+		}
+	}
+	
+	var dates = dayList; //data[dataSets[n].date];
+	
+	var tmpSeriesToDraw=[];
+	var columnsTodraw = dataSets[n].columns;
+	//if (onlyConfirmed && dataSets[n].confirmed) columnsTodraw = dataSets[n].confirmed;
+	for (var j = columnsTodraw.length-1;j>=0; j--) {
+		var d = data[columnsTodraw[j]];
+		var t = [];
+		for (var l = 0; l < dayList.length; l++) {
+			var v = parseFloat(d[dayList[l]]);
+			if (isNaN(v)) v = 0;
+			if (d[dayList[l]] && d[dayList[l]].length) t.push(v);
+			else t.push(0);
+		}
+		var columnName = columnsTodraw[j];
+		if (columnsTodraw[j] in prettyColumns) columnName = prettyColumns[columnsTodraw[j]];
+		if (!(columnName in filters) || filters[columnName]) {
+			tmpSeriesToDraw.push({
+				name: n+" " + columnName,
+				data: t,
+				stack: n
+			});
+		}
+	}
+	if (filters["Sum"]) tmpSeriesToDraw = sumStack(n,tmpSeriesToDraw,dates);
+	for (var j = 0; j < tmpSeriesToDraw.length; j++) seriesToDraw.push(tmpSeriesToDraw[j]);
+	N--;
+	
+	if (N == 0) {
+		if (filters["Cumulative"]) cumulativeSeries(seriesToDraw);
+		
+		Highcharts.chart('container', {
+		  chart: {
+			type: filters["Cumulative"] ? '':'column'
+		  }, 
+		  
+		  title: {
+			text: 'Timeline by Onsets'
+		  },
+		  xAxis: {
+			categories: dates
+		  },
+		  yAxis: {
+			allowDecimals: false,
+			min: 0,
+			title: {
+			  text: 'Number of cases'
+			}
+		  },
+		  tooltip: {
+			formatter: function formatter() {
+				//console.log(this);
+				return '<b>' + this.x + "<br/> " + this.series.name+ " : "+ this.y+"</b>" + '<br/>' + 'Total: ' + this.point.stackTotal;
+			}
+		  },
+		  plotOptions: {
+			column: {
+			  stacking: filters["Cumulative"] ? '':'normal'
+			}
+		  },
+		  series: seriesToDraw
+		});
+	}
+}
+
+function getAndParseDataset(n) {
+	
+	function reqListener () {
+		parseAndCreateSeriesToDraw(n,this.responseText);
+	}
+	var oReq = new XMLHttpRequest();
+	oReq.onload = reqListener;
+	oReq.open("get", dataSets[n].url, true);
+	oReq.send();
+
+}
+
+function loadDataset() {
+	
+	var selectedDatasets = [];
+	var t = sel.querySelectorAll("input");
+	for (var j = 0; j < t.length; j++) {
+		if (t[j].checked) selectedDatasets.push(t[j].value);
+	}
+	N = selectedDatasets.length;
+	seriesToDraw = [];
+	
+	for (var j = 0; j < selectedDatasets.length; j++) getAndParseDataset(selectedDatasets[j]);
+	//DrawDataset(n,this.responseText);
+}
+	
+loadDataset();
+
+	
+	
+</script>
+
+
+
+    <!--<link href="https://unpkg.com/@picocss/pico@1.3.3/css/pico.slim.min.css" rel="stylesheet"/>-->
+    
+    <script src="https://unpkg.com/markdown-it@8.4.2/dist/markdown-it.min.js"></script>
+
+<div id="readme" hidden></div>
+
+
+
+
+<!-- begin snippet: js hide: false console: true babel: null -->
+
+<!-- language: lang-js -->
+<script>
+    const md = window.markdownit();
+
+    fetch('https://flodebarre.github.io/covid_firstCases/readme.md')
+      .then((response) => response.text())
+      .then((text) => {
+        document.getElementById('readme').innerHTML = md.render(text);
+      })
+	  
+</script>
+
+<!-- language: lang-html -->
+
+<!-- end snippet -->
+
+
+
+</body>
+</html>
