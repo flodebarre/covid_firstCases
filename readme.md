@@ -26,6 +26,9 @@ Published online: 2020-01-24
 Data extracted from their Figure 1B
 ![Fig1B Huang et al. 2020](China/Huang-etal_2020/Screenshot_Huang.png)
 
+Shown: confirmed cases.  
+Definition:  
+> The presence of 2019-nCoV in respiratory specimens was detected by next- generation sequencing or real-time RT-PCR methods.
 
 ## Li et al. (2020)
 
@@ -36,6 +39,10 @@ Published online: 2020-01-29
 
 Data extracted from their Figure 1
 ![Fig1 Li et al. 2020](China/Li-etal_2020/Screenshot_Li.png)
+
+Shown: confirmed cases.  
+Definition:  
+> A confirmed case was defined as a case with respiratory specimens that tested positive for the 2019-nCoV by at least one of the follow- ing three methods: isolation of 2019-nCoV or at least two positive results by real-time reverse- transcription–polymerase-chain-reaction (RT-PCR) assay for 2019-nCoV or a genetic sequence that matches 2019-nCoV.
 
 
 ## Yang et al. (2020)
@@ -48,6 +55,8 @@ Withdrawn: 2020-02-21
 Data extracted from their Figure S2
 ![Fig S2 Yang et al. 2020](China/Yang-etal_2020/FigS2.png)
 
+Shown: confirmed or suspected (see legend).
+
 
 ## WHO (2020)
 
@@ -57,7 +66,9 @@ Submitted: 2020-02-28
 Revised: 2020-03-11  
 
 Data extracted from the top panel of their Figure 2
-![Fig 2 WHO 2020](China/WHO_2020/Screenshot_WHO2020.png)
+![Fig 2 WHO 2020](China/WHO_2020/Screenshot_WHO2020_withLegend.png)
+
+Shown: see legend. 
 
 ## WHO (2021)
 
