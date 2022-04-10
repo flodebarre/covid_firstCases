@@ -2,13 +2,14 @@ Parsing and visualizing the early patients onset curves from different sources (
 
 # Visualization
 
-Visualization at <https://flodebarre.github.io/covid_firstCases/China/visualization.html>  
+Visualization at <https://flodebarre.github.io/covid_firstCases/visualization.html>  
 
 # Source data
 
-## CCDC (2019)
+## Wuhan & Hubei & district CDC (2019)
 
-<https://max.book118.com/html/2020/0726/7154144025002153.shtm>
+
+<https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/translation.html>
 
 Date: 2019-12-30  
 
@@ -60,7 +61,7 @@ Shown: confirmed or suspected (see legend).
 
 ## WHO (2020)
 
-<https://www.who.int/docs/default-source/coronaviruse/who-china-joint-mission-on-covid-19---final-report-1100hr-28feb2020-11mar-update.pdf?sfvrsn=1a13fda0_2&download=true>
+<https://www.who.int/docs/default-source/coronaviruse/who-china-joint-mission-on-covid-19---final-report-1100hr-28feb2020-11mar-update.pdf>
 
 Submitted: 2020-02-28  
 Revised: 2020-03-11  
@@ -72,7 +73,7 @@ Shown: see legend.
 
 ## WHO (2021)
 
-<https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf?sfvrsn=4f5e5196_1&download=true>
+<https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf>
 
 Date: 2021-03-30
 
@@ -85,7 +86,7 @@ and Fig 24 (p46)
 
 ## Drastic
 
-Source unknown
+Obtained by cross-referencing hundred of articles on early patients. To be published soon.
 
 # Notes
 
