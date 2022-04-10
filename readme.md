@@ -8,7 +8,8 @@ Visualization at <https://flodebarre.github.io/covid_firstCases/visualization.ht
 
 ## Wuhan & Hubei & district CDC (2019)
 
-<https://max.book118.com/html/2020/0726/7154144025002153.shtm>
+
+<https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/translation.html>
 
 Date: 2019-12-30  
 
@@ -85,7 +86,7 @@ and Fig 24 (p46)
 
 ## Drastic
 
-Source unknown
+Obtained by cross-referencing hundred of articles on early patients. To be published soon.
 
 # Notes
 
