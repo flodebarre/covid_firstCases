@@ -8,10 +8,10 @@ Visualization at <https://flodebarre.github.io/covid_firstCases/China/visualizat
 
 ## Li et al. (2020)
 
-<doi:10.1056/NEJMoa2001316>
+<https://doi.org/10.1056/NEJMoa2001316>
 
-Submitted: NA
-Published online: 2020-01-29
+Submitted: NA   
+Published online: 2020-01-29  
 
 Data extracted from their Figure 1
-![Fig1 Li et al. 2020](Li-etal_2020/Screenshot_Li.png)
+![Fig1 Li et al. 2020](China/Li-etal_2020/Screenshot_Li.png)
