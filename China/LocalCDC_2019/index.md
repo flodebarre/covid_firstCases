@@ -5,12 +5,12 @@
 
 
 
-> Deepl translated from the Chinese text in the source code of https://max.book118.com/html/2020/0726/7154144025002153.shtm
+> Deepl translated from the Chinese text in the source code of <https://max.book118.com/html/2020/0726/7154144025002153.shtm>
 
 
 
 
-> This leaked document was first mentioned in http://archive.ph/vhuLZ (the Intellectuals)
+> This leaked document was first mentioned in <http://archive.ph/vhuLZ> (the Intellectuals)
 
 
 
