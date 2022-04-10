@@ -58,6 +58,16 @@ Data extracted from their Figure S2
 
 Shown: confirmed or suspected (see legend).
 
+## China CDC (2020)
+
+<https://weekly.chinacdc.cn/en/article/doi/10.46234/ccdcw2020.032>
+
+Submitted: 2020-02-11 or after  
+Published: 2020-02-21 issue
+
+Data extrated from their Figure 3
+![Fig 3 CCDC](China/CCDC_2020/CCDC2020_fullFig3.jpg)
+
 
 ## WHO (2020)
 
@@ -69,7 +79,7 @@ Revised: 2020-03-11
 Data extracted from the top panel of their Figure 2
 ![Fig 2 WHO 2020](China/WHO_2020/Screenshot_WHO2020_withLegend.png)
 
-Shown: see legend. 
+Shown: see legend.
 
 ## WHO (2021)
 
