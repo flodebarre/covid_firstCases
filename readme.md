@@ -6,7 +6,7 @@ Visualization at <https://flodebarre.github.io/covid_firstCases/visualization.ht
 
 # Source data
 
-## CCDC (2019)
+## Wuhan & Hubei & district CDC (2019)
 
 <https://max.book118.com/html/2020/0726/7154144025002153.shtm>
 
