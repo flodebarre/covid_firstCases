@@ -27,7 +27,7 @@ A total of 25 cases were searched, and 20 cases were verified through epidemiolo
 1. Population distribution: The age ranged from 31 to 78 years old, mainly concentrated in 14 cases of 40 to 60 years old. There were 14 males and 6 females, with a male-to-female ratio of 2.33:1. Among them, 2 family members were exposed to the market together. Among them, there are family members in the family of the first patient Lan Xiaobiao (husband and wife: Lan Xiaobiao, Qi Yanxia, ​​Lan Xiaobiao's brother Lan Bingbiao, Lan Xiaobiao's father-in-law Qi Xishan), and the second patient Chen Sanhong and his mother (Qiu Fenglan).
 2. Time distribution: The earliest onset time of the investigated cases was on December 12, and the last case was on December 25. The onset curve is as follows.
 
- 
+   ![](figure.png)
 
 
 3. Hospital distribution: At present, there are 4 cases in Jinyintan Hospital, 7 cases in Houhu District of Central Hospital, 8 cases in Tongji Hospital, and 1 case at home.
