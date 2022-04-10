@@ -2,7 +2,7 @@ Parsing and visualizing the early patients onset curves from different sources (
 
 # Visualization
 
-Visualization at <https://flodebarre.github.io/covid_firstCases/China/visualization.html>  
+Visualization at <https://flodebarre.github.io/covid_firstCases/visualization.html>  
 
 # Source data
 
@@ -60,7 +60,7 @@ Shown: confirmed or suspected (see legend).
 
 ## WHO (2020)
 
-<https://www.who.int/docs/default-source/coronaviruse/who-china-joint-mission-on-covid-19---final-report-1100hr-28feb2020-11mar-update.pdf?sfvrsn=1a13fda0_2&download=true>
+<https://www.who.int/docs/default-source/coronaviruse/who-china-joint-mission-on-covid-19---final-report-1100hr-28feb2020-11mar-update.pdf>
 
 Submitted: 2020-02-28  
 Revised: 2020-03-11  
@@ -72,7 +72,7 @@ Shown: see legend.
 
 ## WHO (2021)
 
-<https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf?sfvrsn=4f5e5196_1&download=true>
+<https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf>
 
 Date: 2021-03-30
 
