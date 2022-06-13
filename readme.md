@@ -86,6 +86,12 @@ Data extracted from the top panel of their Figure 2
 
 Shown: see legend.
 
+## Fang Li et al (2020)
+
+<https://doi.org/10.1016/S1473-3099(20)30981-6>
+
+Onset curve in the supplementary materials and with [available raw data](https://uflorida-my.sharepoint.com/personal/yangyang_ufl_edu/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fyangyang%5Fufl%5Fedu%2FDocuments%2FCOVID%2D19%2FWuhan%2FShared%20Data%20and%20R%20Codes%2FData)
+
 ## WHO (2021)
 
 <https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf>
