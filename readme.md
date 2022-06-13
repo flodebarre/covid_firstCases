@@ -45,6 +45,11 @@ Shown: confirmed cases.
 Definition:  
 > A confirmed case was defined as a case with respiratory specimens that tested positive for the 2019-nCoV by at least one of the follow- ing three methods: isolation of 2019-nCoV or at least two positive results by real-time reverse- transcription–polymerase-chain-reaction (RT-PCR) assay for 2019-nCoV or a genetic sequence that matches 2019-nCoV.
 
+## Hao et al. (2020)
+
+<https://doi.org/10.1038/s41586-020-2554-8>
+
+[Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/figures/5) and [data available on github](https://github.com/chaolongwang/SAPHIRE/blob/master/data/Covid19CasesWH.csv)
 
 ## Yang et al. (2020)
 
