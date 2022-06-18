@@ -92,13 +92,13 @@ Shown: see legend.
 
 Onset curve in the supplementary materials (with available raw data).
 
-The same onset curve seems to be p.89 of a [Chinese thesis](https://www.doc88.com/p-19629219677484.html) said to be dumped from the CISDCP on 2020-02-27 (China information system for disease control and prevention)
+The same onset curve seems to be p.89 of a May 2020 [Chinese thesis](https://www.doc88.com/p-19629219677484.html) said to be dumped from the CISDCP on 2020-02-27 (China information system for disease control and prevention)
+
+![Fig p.89](China/FangLi-etal_2021/img.png)
 
 ## WHO (2021)
 
 <https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf>
-
-![Fig p.89](China/FangLi-etal_2021/img.png)
 
 Date: 2021-03-30
 
