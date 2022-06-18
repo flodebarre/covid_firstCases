@@ -90,11 +90,15 @@ Shown: see legend.
 
 <https://doi.org/10.1016/S1473-3099(20)30981-6>
 
-Onset curve in the supplementary materials and with [available raw data](https://uflorida-my.sharepoint.com/personal/yangyang_ufl_edu/_layouts/15/onedrive.aspx?ga=1&id=%2Fpersonal%2Fyangyang%5Fufl%5Fedu%2FDocuments%2FCOVID%2D19%2FWuhan%2FShared%20Data%20and%20R%20Codes%2FData)
+Onset curve in the supplementary materials (with available raw data).
+
+The same onset curve seems to be p.89 of a [Chinese thesis](https://www.doc88.com/p-19629219677484.html) said to be dumped from the CISDCP on 2020-02-27 (China information system for disease control and prevention)
 
 ## WHO (2021)
 
 <https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf>
+
+![Fig p.89](China/FangLi-etal_2021/img.png)
 
 Date: 2021-03-30
 
@@ -118,3 +122,5 @@ Explanations for the discrepancies between WHO 2021 and previous versions, given
 > In the second case, a 34-year-old woman with onset on 2 December 2019 was assessed to have had venous thromboembolic disease and subsequently pneumonia. She remained negative on SARS-CoV- 2 laboratory testing throughout a longer admission period ending in mid-February 2020.  
 > In the third case, a 51-year-old man with onset on 7 December 2019 had symptoms of a cold and fever, and chest X-ray changes (“thickness of texture of both lungs and stripes”). His blood neutrophil count was raised and specific antibodies to Mycoplasma pneumoniae were detected. He responded well to antibiotics. Blood collected in April 2020 was reported negative for SARS-CoV-2-specific
 antibodies.
+
+A June 2020 article in SCMP was claiming a case on Nov 2019 and 266 cases by the end of the year. The 266 number certainly refers to 174 (notified to NNDRS) plus 92 (compatible earlier cases reviewed) mentioned p.7 of the WHO report.
