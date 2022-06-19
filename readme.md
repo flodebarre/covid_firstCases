@@ -108,6 +108,9 @@ Data extracted from Fig 22 (p44)
 and Fig 24 (p46)
 ![WHO20201 Fig 24](China/WHO_2021/Screenshot_WHO2021_fig24.png)
 
+and Fig 27 (p50): cases that were later dismissed
+![WHO2021 Fig 27](China/WHO_2021/Screenshot_WHO2021_fig27.png)
+
 
 ## Drastic
 
