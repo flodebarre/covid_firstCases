@@ -13,7 +13,7 @@ Visualization at <https://flodebarre.github.io/covid_firstCases/visualization.ht
 
 Date: 2019-12-30  
 
-Data extracted from their first figure
+Data extracted from their first figure  
 ![](China/LocalCDC_2019/figure.png)
 
 
