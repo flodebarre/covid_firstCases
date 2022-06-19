@@ -7,7 +7,7 @@
 	<meta property="og:locale" content="en_EN"/>
 	<meta property="og:type" content="article"/>
 	<meta property="og:title" content="Covid-19 December cases from different sources"/>
-	<meta property="og:url" content="https://flodebarre.github.io/covid_firstCases/visualization.html"/>
+	<meta property="og:url" content="https://flodebarre.github.io/covid_firstCases/"/>
 	<meta property="og:image" content="https://flodebarre.github.io/covid_firstCases/miniature.jpg"/>
 	<meta property="twitter:image" content="https://flodebarre.github.io/covid_firstCases/miniature.jpg"/>
 </head>
@@ -46,7 +46,7 @@
 <figure class="highcharts-figure">
     <div id="container"></div>
     <p class="highcharts-description">
-        Onset curves from different <a href="visualization.html#readme" onclick="javascript:document.getElementById('readme').hidden=false;">sources</a> <a href="visualization.html#readme" onclick="javascript:document.getElementById('readme').hidden=false;"><small>[expand]</small></a>
+        Onset curves from different <a href="#readme" onclick="javascript:document.getElementById('readme').hidden=false;">sources</a> <a href="#readme" onclick="javascript:document.getElementById('readme').hidden=false;"><small>[expand]</small></a>
     </p>
 	<div style="float:right;"> <a href="https://github.com/flodebarre/covid_firstCases/">github</a></div>
 </figure>
@@ -99,11 +99,19 @@ var dataSets = {
 	},
 	"Drastic 2022":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/Drastic_2022/data_Drastic_2022.csv",
-		columns:["nb_Huanan","nb_nonHuanan"]
+		columns:["nb_Huanan","nb_nonHuanan","nb_falsePositive"]
 	},
 	"Yang":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/Yang-etal_2020/data_Yang.csv",
 		columns:["nb_cases_Confirmed","nb_cases_Suspected"] 
+	},
+	"Hao":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Hoa-etal_2020/data_Hao.csv",
+		columns:["nb_Wuhan"] 
+	},
+	"FangLi":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/FangLi-etal_2021/data_FangLi.csv",
+		columns:["nb_confirmed"]
 	}
 	
 };
@@ -122,7 +130,9 @@ var prettyColumns = {
 	"cases_HuananExposure":"Huanan",
 	"cases_NoHuananExposure":"Non-Huanan",
 	"nb_Huanan":"Huanan",
-	"nb_nonHuanan":"Non-Huanan"
+	"nb_nonHuanan":"Non-Huanan",
+	"nb_falsePositive":"False positives",
+	"nb_Wuhan":"Wuhan"
 };
 
 
