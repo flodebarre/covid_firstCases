@@ -1,49 +1,61 @@
-Parsing and visualizing the early patients onset curves from different sources (Huang, Li, China CDC, WHO)
+This repository gathers data on early cases in Wuhan from different sources, and provides a way to visualise and compare these early epidemic curves. 
+
+⚠️ The earliest epidemic curves are known to be incomplete. They are shown here because they make it possible to see where cases that were later retrospectively found are placed on the epidemic curves.  
+
+Unless specified, the data were manually extracted, using [WebPlotDigitizer](https://apps.automeris.io/wpd/) for the most complex figures. 
+
 
 # Visualization
 
-Visualization at <https://flodebarre.github.io/covid_firstCases/visualization.html>  
+A tool to visualise and compare the different curves is available at <https://flodebarre.github.io/covid_firstCases/visualization.html>. It was coded by [Babarlelephant](https://github.com/babarlelephant).  
+
 
 # Source data
 
 ## Wuhan & Hubei & district CDC (2019)
 
-
-<https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/translation.html>
+Source: <https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/translation.md>
 
 Date: 2019-12-30  
 
-Data extracted from their first figure  
+Data from: their first figure  
 ![](China/LocalCDC_2019/figure.png)
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/LocalCDC_2019/data_LocalCDC_2019.csv)
 
 
 ## Huang et al. (2020)
 
-<https://doi.org/10.1016/S0140-6736(20)30183-5>
+Source: <https://doi.org/10.1016/S0140-6736(20)30183-5>
 
-Submitted: NA  
-Published online: 2020-01-24  
+Date:  Submitted: NA    
+       Published online: 2020-01-24  
 
-Data extracted from their Figure 1B
+Data from: their Figure 1B 
 ![Fig1B Huang et al. 2020](China/Huang-etal_2020/Screenshot_Huang.png)
 
 Shown: confirmed cases.  
 Definition:  
 > The presence of 2019-nCoV in respiratory specimens was detected by next- generation sequencing or real-time RT-PCR methods.
 
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Huang-etal_2020/data_Huang2020.csv)
+
+
 ## Li et al. (2020)
 
-<https://doi.org/10.1056/NEJMoa2001316>
+Source: <https://doi.org/10.1056/NEJMoa2001316>
 
-Submitted: NA   
-Published online: 2020-01-29  
+Date:  Submitted: NA   
+       Published online: 2020-01-29  
 
-Data extracted from their Figure 1
+Data from: their Figure 1
 ![Fig1 Li et al. 2020](China/Li-etal_2020/Screenshot_Li.png)
 
 Shown: confirmed cases.  
 Definition:  
 > A confirmed case was defined as a case with respiratory specimens that tested positive for the 2019-nCoV by at least one of the follow- ing three methods: isolation of 2019-nCoV or at least two positive results by real-time reverse- transcription–polymerase-chain-reaction (RT-PCR) assay for 2019-nCoV or a genetic sequence that matches 2019-nCoV.
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Li-etal_2020/data_Li2020.csv)
 
 ## Hao et al. (2020)
 
