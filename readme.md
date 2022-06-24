@@ -59,78 +59,101 @@ Definition:
 
 ## Hao et al. (2020)
 
-<https://doi.org/10.1038/s41586-020-2554-8>
+Source: <https://doi.org/10.1038/s41586-020-2554-8>
 
-[Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/figures/5) and [data available on github](https://github.com/chaolongwang/SAPHIRE/blob/master/data/Covid19CasesWH.csv)
+Data from: [Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/figures/5) and [Github dataset](https://github.com/chaolongwang/SAPHIRE/blob/master/data/Covid19CasesWH.csv)
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Hao-etal_2020/data_Hao.csv)
 
 ## Yang et al. (2020)
 
-<https://doi.org/10.1101/2020.02.10.20021675>
+Source: <https://doi.org/10.1101/2020.02.10.20021675>
 
-Submitted: 2020-02-11   
-Withdrawn: 2020-02-21  
+Date:  Submitted: 2020-02-11   
+       Withdrawn: 2020-02-21  
 
-Data extracted from their Figure S2
+Data from: their Figure S2
 ![Fig S2 Yang et al. 2020](China/Yang-etal_2020/FigS2.png)
 
 Shown: confirmed or suspected (see legend).
 
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Yang-etal_2020/data_Yang.csv)
+
+
 ## China CDC (2020)
 
-<https://weekly.chinacdc.cn/en/article/doi/10.46234/ccdcw2020.032>
+Source: <https://weekly.chinacdc.cn/en/article/doi/10.46234/ccdcw2020.032>
 
-Submitted: 2020-02-11 or after  
-Published: 2020-02-21 issue
+Date:  Submitted: 2020-02-11 or after  
+       Published: 2020-02-21 issue
 
-Data extrated from their Figure 3
+Data from: their Figure 3
 ![Fig 3 CCDC](China/CCDC_2020/CCDC2020_fullFig3.jpg)
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/CCDC_2020/data_CCDC.csv)
 
 
 ## WHO (2020)
 
-<https://www.who.int/docs/default-source/coronaviruse/who-china-joint-mission-on-covid-19---final-report-1100hr-28feb2020-11mar-update.pdf>
+Source: <https://www.who.int/docs/default-source/coronaviruse/who-china-joint-mission-on-covid-19---final-report-1100hr-28feb2020-11mar-update.pdf>
 
-Submitted: 2020-02-28  
-Revised: 2020-03-11  
+Date:  Submitted: 2020-02-28  
+       Revised: 2020-03-11  
 
-Data extracted from the top panel of their Figure 2
+Data from: the top panel of their Figure 2
 ![Fig 2 WHO 2020](China/WHO_2020/Screenshot_WHO2020_withLegend.png)
 
 Shown: see legend.
 
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/WHO_2020/data_WHO2020.csv)
+
+
 ## Fang Li et al (2020)
 
-<https://doi.org/10.1016/S1473-3099(20)30981-6>
+Source: <https://doi.org/10.1016/S1473-3099(20)30981-6>
 
-Onset curve in the supplementary materials (with available raw data).
+Data from: Onset curve in the supplementary materials (with available raw data).
 
 The same onset curve seems to be p.89 of a May 2020 [Chinese thesis](https://www.doc88.com/p-19629219677484.html) said to be dumped from the CISDCP on 2020-02-27 (China information system for disease control and prevention)
 
 ![Fig p.89](China/FangLi-etal_2021/img.png)
 
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Li-etal_2020/data_Li2020.csv)
+
+
 ## WHO (2021)
 
-<https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf>
+Source: <https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf>
 
 Date: 2021-03-30
 
-Data extracted from Fig 22 (p44)
+Data from: Fig 22 (p44)
 ![WHO20201 Fig 22](China/WHO_2021/Screenshot_WHO2021_fig22.png)
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/WHO_2021/data_WHO.csv)
 
 and Fig 24 (p46)
 ![WHO20201 Fig 24](China/WHO_2021/Screenshot_WHO2021_fig24.png)
 
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/WHO_2021/data_WHO_fig24.csv)
+
 and Fig 27 (p50): cases that were later dismissed
 ![WHO2021 Fig 27](China/WHO_2021/Screenshot_WHO2021_fig27.png)
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/WHO_2021/data_WHO_fig27.csv)
 
 
 ## Drastic
 
-Obtained by cross-referencing hundred of articles on early patients. To be published soon.
+Source: Provided by @babarlelephant.  
+
+The Drastic dataset was obtained by cross-referencing hundred of articles on early patients. To be published soon.
+
+
 
 # Notes
 
-Explanations for the discrepancies between WHO 2021 and previous versions, given in the WHO report (p47, main document)
+-  Explanations for the discrepancies between WHO 2021 and previous versions, given in the WHO report (p47, main document)
 
 > Three possible cases with disease onset on 1, 2 and 7 December 2019, respectively, were initially identified as potential cases in the retrospective case search and have been included in some published papers. Clinical review of these three cases by the Chinese expert team led to their exclusion as possible cases on the basis of the clinical features of their illness.  
 > In the case with onset on 1 December, a 62-year-old man with past history of cerebrovascular disease was judged to have had a minor respiratory illness in early December, which responded to antibiotics. He developed a further illness with onset on 26 December 2019, which was later laboratory- confirmed to be COVID-19. This patient had no reported contact to the Huanan market, whereas his wife, who was admitted on 26 December with a COVID-19 compatible illness, reported close contact with the Huanan market. She was also later laboratory-confirmed to have COVID-19. This couple, together with their son, became part of the first recognized family cluster of COVID-19.  
@@ -138,4 +161,4 @@ Explanations for the discrepancies between WHO 2021 and previous versions, given
 > In the third case, a 51-year-old man with onset on 7 December 2019 had symptoms of a cold and fever, and chest X-ray changes (“thickness of texture of both lungs and stripes”). His blood neutrophil count was raised and specific antibodies to Mycoplasma pneumoniae were detected. He responded well to antibiotics. Blood collected in April 2020 was reported negative for SARS-CoV-2-specific
 antibodies.
 
-A June 2020 article in SCMP was claiming a case on Nov 2019 and 266 cases by the end of the year. The 266 number certainly refers to 174 (notified to NNDRS) plus 92 (compatible earlier cases reviewed) mentioned p.7 of the WHO report.
+-  A [March 2020 article in SCMP](https://www.scmp.com/news/china/society/article/3074991/coronavirus-chinas-first-confirmed-covid-19-case-traced-back) (available without paywall [https://sg.news.yahoo.com/coronavirus-china-first-confirmed-covid-152553818.html](here)) was claiming a case on Nov 2019 and 266 cases by the end of the year. The 266 number certainly refers to 174 (notified to NNDRS) plus 92 (compatible earlier cases reviewed) mentioned p.7 of the WHO 2021 report.
