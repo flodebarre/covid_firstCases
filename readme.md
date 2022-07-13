@@ -61,7 +61,9 @@ Definition:
 
 Source: <https://doi.org/10.1038/s41586-020-2554-8>
 
-Data from: [Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/figures/5) and [Github dataset](https://github.com/chaolongwang/SAPHIRE/blob/master/data/Covid19CasesWH.csv)
+Data from: [Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/figures/5) and [Github dataset](https://github.com/chaolongwang/SAPHIRE/blob/master/data/Covid19CasesWH.csv)  
+![Fig S2 Hao et al. 2020](China/Hao-etal_2020_Hao_SFig2.tiff)
+
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Hao-etal_2020/data_Hao.csv)
 
@@ -161,4 +163,4 @@ The Drastic dataset was obtained by cross-referencing hundred of articles on ear
 > In the third case, a 51-year-old man with onset on 7 December 2019 had symptoms of a cold and fever, and chest X-ray changes (“thickness of texture of both lungs and stripes”). His blood neutrophil count was raised and specific antibodies to Mycoplasma pneumoniae were detected. He responded well to antibiotics. Blood collected in April 2020 was reported negative for SARS-CoV-2-specific
 antibodies.
 
--  A [March 2020 article in SCMP](https://www.scmp.com/news/china/society/article/3074991/coronavirus-chinas-first-confirmed-covid-19-case-traced-back) (available without paywall [https://sg.news.yahoo.com/coronavirus-china-first-confirmed-covid-152553818.html](here)) was claiming a case on Nov 2019 and 266 cases by the end of the year. The 266 number certainly refers to 174 (notified to NNDRS) plus 92 (compatible earlier cases reviewed) mentioned p.7 of the WHO 2021 report.
+-  A [March 2020 article in SCMP](https://www.scmp.com/news/china/society/article/3074991/coronavirus-chinas-first-confirmed-covid-19-case-traced-back) (available without paywall [here](https://sg.news.yahoo.com/coronavirus-china-first-confirmed-covid-152553818.html)) was claiming a case on Nov 2019 and 266 cases by the end of the year. The 266 number certainly refers to 174 (notified to NNDRS) plus 92 (compatible earlier cases reviewed) mentioned p.7 of the WHO 2021 report.
