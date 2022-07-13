@@ -62,7 +62,7 @@ Definition:
 Source: <https://doi.org/10.1038/s41586-020-2554-8>
 
 Data from: [Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/figures/5) and [Github dataset](https://github.com/chaolongwang/SAPHIRE/blob/master/data/Covid19CasesWH.csv)  
-![Fig S2 Hao et al. 2020](China/Hao-etal_2020_Hao_SFig2.tiff)
+![Fig S2 Hao et al. 2020](China/Hao-etal_2020_Hao_SFig2.png)
 
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Hao-etal_2020/data_Hao.csv)
