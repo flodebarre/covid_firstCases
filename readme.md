@@ -1,8 +1,8 @@
-This repository gathers data on early cases in Wuhan from different sources, and provides a way to visualise and compare these early epidemic curves. 
+This repository gathers data on early cases in Wuhan from different sources, and provides a way to visualise and compare these early epidemic curves.
 
 ⚠️ The earliest epidemic curves are known to be incomplete. They are shown here because they make it possible to see where cases that were later retrospectively found are placed on the epidemic curves.  
 
-Unless specified, the data were manually extracted, using [WebPlotDigitizer](https://apps.automeris.io/wpd/) for the most complex figures. 
+Unless specified, the data were manually extracted, using [WebPlotDigitizer](https://apps.automeris.io/wpd/) for the most complex figures.
 
 
 # Visualization
@@ -31,12 +31,14 @@ Source: <https://doi.org/10.1016/S0140-6736(20)30183-5>
 Date:  Submitted: NA    
        Published online: 2020-01-24  
 
-Data from: their Figure 1B 
+Data from: their Figure 1B
 ![Fig1B Huang et al. 2020](China/Huang-etal_2020/Screenshot_Huang.png)
 
 Shown: confirmed cases.  
 Definition:  
 > The presence of 2019-nCoV in respiratory specimens was detected by next- generation sequencing or real-time RT-PCR methods.
+
+Their data source: "We reviewed clinical charts, nursing records, laboratory findings, and chest x-rays for all patients with laboratory- confirmed 2019-nCoV infection who were reported by the local health authority."
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Huang-etal_2020/data_Huang2020.csv)
 
@@ -110,17 +112,23 @@ Shown: see legend.
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/WHO_2020/data_WHO2020.csv)
 
 
-## Fang Li et al (2020)
+## Fang Li et al (2021)
 
 Source: <https://doi.org/10.1016/S1473-3099(20)30981-6>
 
-Data from: Onset curve in the supplementary materials (with available raw data).
+Date: Submitted: NA  
+      Published online: 2021-01-18  
+      Data date: 2020-11-07 (last modification date in the online repo)  
 
-The same onset curve seems to be p.89 of a May 2020 [Chinese thesis](https://www.doc88.com/p-19629219677484.html) said to be dumped from the CISDCP on 2020-02-27 (China information system for disease control and prevention)
+Data from: Onset curve in the supplementary materials (with available [raw data](https://uflorida-my.sharepoint.com/:f:/g/personal/yangyang_ufl_edu/Ei-U0gqXRhNDixONBcXImBkBcBtSBHdm4LhZOQvdUjh2FA)).
+
+![SFig1 FangLi](China/FangLi-etal_2021/LiFang_SFig1.png)
+
+The same onset curve seems to be p.89 of a May 2020 [Chinese thesis](https://www.doc88.com/p-19629219677484.html) said to be from the CISDCP on 2020-02-27 (China information system for disease control and prevention)
 
 ![Fig p.89](China/FangLi-etal_2021/img.png)
 
-[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Li-etal_2020/data_Li2020.csv)
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/FangLi-etal_2021/data_FangLi.csv)
 
 
 ## WHO (2021)
