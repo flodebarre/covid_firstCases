@@ -59,15 +59,6 @@ Definition:
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Li-etal_2020/data_Li2020.csv)
 
-## Hao et al. (2020)
-
-Source: <https://doi.org/10.1038/s41586-020-2554-8>
-
-Data from: [Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/figures/5) and [Github dataset](https://github.com/chaolongwang/SAPHIRE/blob/master/data/Covid19CasesWH.csv)  
-![Fig S2 Hao et al. 2020](China/Hao-etal_2020/Hao_SFig2.png)
-
-
-[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Hao-etal_2020/data_Hao.csv)
 
 ## Yang et al. (2020)
 
@@ -110,6 +101,34 @@ Data from: the top panel of their Figure 2
 Shown: see legend.
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/WHO_2020/data_WHO2020.csv)
+
+## Pan et al. (2020)
+
+Source: <>
+
+Date:  Data extraction: 2020-03-09  
+       Accepted: 2020-04-03
+
+Data from: eFigure1  
+![eFig1 Pan2020](China/Pan-etal_2020/Pan_S1.png)
+
+Shown: see legend.
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Pan-etal_2020/data_Pan2020.csv)
+
+
+## Hao et al. (2020)
+
+Source: <https://doi.org/10.1038/s41586-020-2554-8>
+
+Date:  Submitted: 2020-04-14
+       Accepted:  2020-07-10
+
+Data from: [Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/figures/5) and [Github dataset](https://github.com/chaolongwang/SAPHIRE/blob/master/data/Covid19CasesWH.csv)  
+![Fig S2 Hao et al. 2020](China/Hao-etal_2020/Hao_SFig2.png)
+
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Hao-etal_2020/data_Hao.csv)
 
 
 ## Fang Li et al (2021)
