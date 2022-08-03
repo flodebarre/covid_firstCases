@@ -104,7 +104,7 @@ Shown: see legend.
 
 ## Pan et al. (2020)
 
-Source: <>
+Source: <https://doi.org/10.1001/jama.2020.6130>
 
 Date:  Data extraction: 2020-03-09  
        Accepted: 2020-04-03
