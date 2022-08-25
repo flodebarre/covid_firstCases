@@ -78,6 +78,7 @@ if(FALSE){
 
 # Compute emergence dates
 # With Huang et al. data
+# alpha=0.1 because one-sided (they only reported earliest date)
 OLE.emergence(datesHuang, alpha = 0.1)
 # >     Estimate    lowerCI    upperCI
 # > 1 2019-11-17 2019-11-23 2019-10-04
