@@ -1,16 +1,28 @@
+#----------------------------------------------------------------------------------
+# Reproducing and extending the analysis presented in Roberts et al. (2021):
+#  Roberts DL, Rossman JS, Jarić I (2021) 
+#  Dating first cases of COVID-19. PLoS Pathog 17(6): e1009620. 
+#  https://doi.org/10.1371/journal.ppat.1009620
+#
+# -> Take-Home message: 
+# The estimated dates of origin change a lot with changes in the data. 
+# With corrected datasets, the estimated origin is much later. 
+#----------------------------------------------------------------------------------
+
 # Data: 
 # dates at which there is at least one onset date
 
 # Date used by Roberts et al. 
-datesHuang <- c("2019-12-01", "2019-12-10", "2019-12-15", "2019-12-17", "2019-12-18", "2019-12-19", "2019-12-20", "2019-12-21", "2019-12-22", "2019-12-23")
+datesHuang <- c("2019-12-01", "2019-12-10", "2019-12-15", "2019-12-17", "2019-12-18", 
+                "2019-12-19", "2019-12-20", "2019-12-21", "2019-12-22", "2019-12-23")
 
 # WHO 2021 data, after Worobey correction
-datesWHOWorobey <- c("2019-12-11", "2019-12-12", "2019-12-13", "2019-12-15", "2019-12-16", 
-                     "2019-12-17", "2019-12-18", "2019-12-19", "2019-12-20", "2019-12-21")
+datesWHOWorobey <- c("2019-12-10", "2019-12-11", "2019-12-12", "2019-12-13", "2019-12-15", 
+                     "2019-12-16", "2019-12-17", "2019-12-18", "2019-12-19", "2019-12-20")
 
 # WHO 2021 data
-datesWHOraw <- c("2019-12-08", "2019-12-11", "2019-12-12", "2019-12-13", "2019-12-15", "2019-12-16", 
-                     "2019-12-17", "2019-12-18", "2019-12-19", "2019-12-20")
+datesWHOraw <- c("2019-12-08", "2019-12-11", "2019-12-12", "2019-12-13", "2019-12-15", 
+                 "2019-12-16", "2019-12-17", "2019-12-18", "2019-12-19", "2019-12-20")
 
 # Other way to write the Huang et al. dates, for checks
 tt <- rev(c(1, 10, 15, 17, 18, 19, 20, 21, 22, 23))
@@ -87,7 +99,7 @@ OLE.emergence(datesHuang, alpha = 0.1)
 # Now with the other datasets
 OLE.emergence(datesWHOWorobey, alpha = 0.1)
 # >     Estimate    lowerCI    upperCI
-# > 1 2019-12-09 2019-12-10 2019-12-04
+# > 1 2019-12-08 2019-12-09 2019-12-03
 
 OLE.emergence(datesWHOraw, alpha = 0.1)
 # >     Estimate    lowerCI    upperCI
