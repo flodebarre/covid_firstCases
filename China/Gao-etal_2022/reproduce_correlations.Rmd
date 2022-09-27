@@ -1,12 +1,15 @@
 ---
 title: "Reproduce correlations in Gao et al."
-output: html_notebook
+output: html_notebook:
+          keep_md: yes
+          self_contained: no
 editor_options: 
   chunk_output_type: inline
 ---
 
 ```{r inits}
-doReps <- FALSE # Whether to do the bootstrap again - FALSE if already done
+doReps <- TRUE # Whether to do the bootstrap again - set to FALSE if already done to save time
+nreps <- 10^5 # Number of bootstrap replicates
 ```
 
 ```{r loadData}
@@ -30,11 +33,17 @@ CovHumanData$logNReadsCov <- log(CovHumanData$nReadsCov, 10)
 # Data point in Gao Fig 4A is (0.44, 0.59)
 # Check the values to see if they did the correlation on untransformed data
 #   or on log-transformed data
+cat("Pearson correlation, log-transformed data: ")
 cor(CovHumanData$logNReadsHomo, CovHumanData$logNReadsCov, method = "pearson")
+cat("Pearson correlation, raw data: ")
 cor(CovHumanData$nReadsHomo, CovHumanData$nReadsCov, method = "pearson")
+
+cat("Spearman correlation, log-transformed data: ")
 cor(CovHumanData$logNReadsHomo, CovHumanData$logNReadsCov, method = "spearman")
+cat("Spearman correlation, raw data: ")
 cor(CovHumanData$nReadsHomo, CovHumanData$nReadsCov, method = "spearman")
 # -> They did the correlation on untransformed data
+# which is odd because the linear fit in Figure 4B is done with log-transformed data. 
 ```
 
 
@@ -44,7 +53,7 @@ cP
 cP$conf.int
 cS <- cor.test(CovHumanData$nReadsHomo, CovHumanData$nReadsCov, method = "spearman")
 cS 
-# no confidence interval for spearman
+# (no confidence interval for spearman cor.test)
 ```
 
 
@@ -78,9 +87,6 @@ newX2 <- data.frame(nReadsHomo = 10^seq(4, 7, length.out = 100))
 # Set random seed for reproducibility
 set.seed(12345) 
 
-par(bg = gray(0, 0)) # Transparent background
-
-nreps <- 10^5 # Number of bootstrap replicates
 corrs <- matrix(nrow = nreps, ncol = 2) # initialize output matrix
 
 nr <- nrow(CovHumanData) # Number of points in the data
@@ -98,17 +104,22 @@ computeCorrs <- function(){
 }
 
 # Bootstrap
-corrs <- replicate(nreps, computeCorrs()) 
+if(doReps)  corrs <- replicate(nreps, computeCorrs()) 
 
-# Check estimates
+# Check estimates and 95% CI
+cat("Pearson: ")
 mean(corrs[1, ]) # Pearson
-mean(corrs[2, ]) # Spearman
-# 95% CI
 quantile(corrs[1, ], probs = c(0.025, 0.975))
-quantile(corrs[2, ], probs = c(0.025, 0.975))
+
 # Compare with Pearson estimate
+cat("Pearson estimates with cor.test():")
 cP$estimate
 cP$conf.int
+
+cat("Spearman")
+mean(corrs[2, ]) # Spearman
+quantile(corrs[2, ], probs = c(0.025, 0.975))
+
 ```
 
 
@@ -134,13 +145,17 @@ axis(2, pos = -1)
 picture <- png::readPNG("Fig4A_closeup.png")
 rasterImage(picture, -1, -1, 1, 1)
 
+# Plot estiate
 points(cS$estimate, cP$estimate, col = 2, pch = 16, cex = 1.5) # Estimate Homo
 
+# Plot confidence intervals
+# with cor.test for Pearson, with bootstrap for Pearson
 arrows(x0 = cS$estimate, x1 = cS$estimate, 
        y0 = cP$conf.int[1], y1 = cP$conf.int[2], code = 3, angle = 90, col = colP, length = lga, lwd = lwda)
 arrows(x0 = quantile(corrs[2, ], probs = c(0.025)), x1 = quantile(corrs[2, ], probs = c(0.975)), 
        y0 = cP$estimate, y1 = cP$estimate, code = 3, angle = 90, col = colS, length = lga, lwd = lwda)
-points(mean(corrs[2, ]), cP$estimate, col = colS) # Add estimate
+
+points(mean(corrs[2, ]), cP$estimate, col = colS) # Add estimate with bootstrap
 
 
 ```
