@@ -1,0 +1,147 @@
+---
+title: "Reproduce correlations in Gao et al."
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r inits}
+doReps <- FALSE # Whether to do the bootstrap again - FALSE if already done
+```
+
+```{r loadData}
+# Data: Extracted from Gao et al's figure 4B using WebPlotDigitizer
+#          - automatic mode, and then 
+#          - manually removing points that were mistakenly on the dashed line
+
+# install.packages("png") # Install this package to insert an image in a plot
+
+# Load the data
+CovHumanData <- read.csv("GaoFig4B.csv", header = FALSE)
+names(CovHumanData) <- c("nReadsHomo", "nReadsCov") # Name columns
+
+# Log-transform the data
+CovHumanData$logNReadsHomo <- log(CovHumanData$nReadsHomo, 10)
+CovHumanData$logNReadsCov <- log(CovHumanData$nReadsCov, 10)
+```
+
+
+```{r checkCorrs}
+# Data point in Gao Fig 4A is (0.44, 0.59)
+# Check the values to see if they did the correlation on untransformed data
+#   or on log-transformed data
+cor(CovHumanData$logNReadsHomo, CovHumanData$logNReadsCov, method = "pearson")
+cor(CovHumanData$nReadsHomo, CovHumanData$nReadsCov, method = "pearson")
+cor(CovHumanData$logNReadsHomo, CovHumanData$logNReadsCov, method = "spearman")
+cor(CovHumanData$nReadsHomo, CovHumanData$nReadsCov, method = "spearman")
+# -> They did the correlation on untransformed data
+```
+
+
+```{r checkCorrsandCI}
+cP <- cor.test(CovHumanData$nReadsHomo, CovHumanData$nReadsCov, method = "pearson")
+cP
+cP$conf.int
+cS <- cor.test(CovHumanData$nReadsHomo, CovHumanData$nReadsCov, method = "spearman")
+cS 
+# no confidence interval for spearman
+```
+
+
+```{r Fig4B, fig.width=5, fig.height=5}
+#### 1- Fig 4B ####
+
+# Check plot appearance
+par(pty = "s", mgp = c(3, 0.5, 0))
+plot(CovHumanData$nReadsHomo, CovHumanData$nReadsCov, log = "xy", 
+     xlim = c(10^4, 10^7), ylim = c(1, 10^7), las = 1, 
+     xlab = expression(paste("Read counts of ", italic("Homo sapiens"))), ylab = expression(paste("Read counts of ", italic("SARS-CoV-2"))), 
+     pch = 16)
+
+# Model 1: lm on log-transformed data
+mdl1 <- lm(logNReadsCov ~ logNReadsHomo, data = CovHumanData)
+newX1 <- data.frame(logNReadsHomo = seq(4, 7, length.out = 100))
+lines(10^newX1[, 1], 10^predict(mdl1, newdata = newX1), col = 2)
+
+# Model 2: lm on untransformed data
+mdl2 <- lm(nReadsCov ~ nReadsHomo, data = CovHumanData)
+newX2 <- data.frame(nReadsHomo = 10^seq(4, 7, length.out = 100))
+# lines(newX2[, 1], predict(mdl2, newdata = newX2), col = 3)
+
+# -> I cannot reproduce their linear fit...
+```
+
+
+```{r Fig4ABootstrap}
+#### 2- Fig 4A ####
+
+# Set random seed for reproducibility
+set.seed(12345) 
+
+par(bg = gray(0, 0)) # Transparent background
+
+nreps <- 10^5 # Number of bootstrap replicates
+corrs <- matrix(nrow = nreps, ncol = 2) # initialize output matrix
+
+nr <- nrow(CovHumanData) # Number of points in the data
+
+# Define function to compute correlation on a sample of the data
+computeCorrs <- function(){
+  # Random sample of data
+  rlines <- sample(1:nr, size = nr, replace = TRUE) # Draw line indices
+  newdat <- CovHumanData[rlines, ] # Redefine the data
+  
+  # Compute the two correlations on this new dataset
+  out <- c(cor(newdat$nReadsHomo, newdat$nReadsCov, method = "pearson"),
+           cor(newdat$nReadsHomo, newdat$nReadsCov, method = "spearman"))
+  out
+}
+
+# Bootstrap
+corrs <- replicate(nreps, computeCorrs()) 
+
+# Check estimates
+mean(corrs[1, ]) # Pearson
+mean(corrs[2, ]) # Spearman
+# 95% CI
+quantile(corrs[1, ], probs = c(0.025, 0.975))
+quantile(corrs[2, ], probs = c(0.025, 0.975))
+# Compare with Pearson estimate
+cP$estimate
+cP$conf.int
+```
+
+
+```{r Fig4APlot, fig.width=7, fig.height=7}
+# Plot
+# Parameters
+lwda <- 3 # Line width of the confidence intervals
+lga <- 0.1 # Length of the tips of the CIs
+colP <- "purple" # Color CI Pearson
+colS <- "orange" # Color CI Spearman
+
+par(las = 1, pty = "s", cex.lab = 2, cex.axis = 1.75)
+# Plot SARS-CoV-2 to initialize figure
+plot(1, 1, 
+     xlim = c(-1, 1), ylim = c(-1, 1), 
+     las = 1, 
+     xlab = "Spearman correlation", ylab = "Pearson correlation", frame.plot = FALSE, 
+     axes = FALSE)
+axis(1, pos = -1)
+axis(2, pos = -1)
+
+# Load Gao figure and plot it
+picture <- png::readPNG("Fig4A_closeup.png")
+rasterImage(picture, -1, -1, 1, 1)
+
+points(cS$estimate, cP$estimate, col = 2, pch = 16, cex = 1.5) # Estimate Homo
+
+arrows(x0 = cS$estimate, x1 = cS$estimate, 
+       y0 = cP$conf.int[1], y1 = cP$conf.int[2], code = 3, angle = 90, col = colP, length = lga, lwd = lwda)
+arrows(x0 = quantile(corrs[2, ], probs = c(0.025)), x1 = quantile(corrs[2, ], probs = c(0.975)), 
+       y0 = cP$estimate, y1 = cP$estimate, code = 3, angle = 90, col = colS, length = lga, lwd = lwda)
+points(mean(corrs[2, ]), cP$estimate, col = colS) # Add estimate
+
+
+```
+
