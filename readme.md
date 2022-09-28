@@ -14,7 +14,7 @@ A tool to visualise and compare the different curves is available at <https://fl
 
 ## Wuhan & Hubei & district CDC (2019)
 
-Source: <https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/translation.md>
+Source: <https://max.book118.com/html/2020/0726/7154144025002153.shtm> ([archive](https://archive.ph/hvuNv)), [translation](https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/translation.md)
 
 Date: 2019-12-30  
 
