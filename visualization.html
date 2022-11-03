@@ -280,7 +280,10 @@ function parseAndCreateSeriesToDraw(n,text) {
 		  plotOptions: {
 			column: {
 			  stacking: filters["Cumulative"] ? '':'normal'
-			}
+			},
+			series: {
+				animation: false
+		  }
 		  },
 		  series: seriesToDraw
 		});
