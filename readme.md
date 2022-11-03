@@ -171,6 +171,16 @@ and Fig 27 (p50): cases that were later dismissed
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/WHO_2021/data_WHO_fig27.csv)
 
+## Pekar et al. (2022)
+
+Source: <https://www.science.org/doi/10.1126/science.abp8337>
+
+Date: 2022-08
+
+Data from: Fig S21 A, from WHO report and Li et al. (2021)
+![Pekar2022 Fig S21](China/Pekar-etal_2022/Pekar_S21A.png)
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Pekar-etal_2022/data_Pekar2022.csv)
 
 ## Drastic
 
