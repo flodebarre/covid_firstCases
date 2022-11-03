@@ -116,14 +116,19 @@ var dataSets = {
 		ind_date:0,
 		columns:["nb_Cases_MarketExposure","nb_Cases_NoMarket"]
 	},
+	"Pekar 2022":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Pekar-etal_2022/data_Pekar2022.csv",
+		columns:["nb_cases_total"]
+	}
 	"Drastic 2022":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/Drastic_2022/data_Drastic_2022.csv",
 		columns:["nb_Huanan","nb_nonHuanan"]
 	}
 };
 
-var initWithDatasets = ["ChinaCDC 2020", "WHO 2020", "Pan 2020", "Li 2020 LancetID", "WHO 2021"];
+var initWithDatasets = ["ChinaCDC 2020", "WHO 2020", "Pan 2020", "Li 2020 LancetID", "WHO 2021", "Pekar 2022"];
 var prettyColumns = {
+	"nb_cases_total":"Confirmed",
 	"nb_confirmed":"Confirmed",
 	"nb_cases_Confirmed":"Confirmed",
 	"nb_Wuhan":"Confirmed",
