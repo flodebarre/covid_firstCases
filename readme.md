@@ -116,6 +116,22 @@ Shown: see legend.
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Pan-etal_2020/data_Pan2020.csv)
 
+---
+
+medRxiv version of the paper:  
+Source: <http://medrxiv.org/lookup/doi/10.1101/2020.03.03.20030593>
+
+Data:  Data extraction: 2020-02-19  
+       Submitted: 2020-03-06
+
+Data from: figure 1  
+![Fig1 Pan2020 medRxiv](China/Pan-etal_2020/Pan_fig1_medRxiv.png)
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Pan-etal_2020/data_Wang_medRxiv.csv)
+
+
+
+
 
 ## Hao et al. (2020)
 
