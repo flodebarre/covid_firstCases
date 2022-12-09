@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+type: dataset
+preferred-citation: data
+message: "If you use this database, please cite it as below."
+authors:
+- family-names: "Débarre"
+  given-names: "Florence"
+  orcid: "https://orcid.org/0000-0003-2497-833X"
+title: "Wuhan epi-curves"
+url: "https://github.com/flodebarre/covid_firstCases"
