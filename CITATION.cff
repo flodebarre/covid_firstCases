@@ -1,10 +1,13 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
 cff-version: 1.2.0
+title: Wuhan December 2019 epi-curves
+message: >-
+  If you use this dataset, please cite it using the
+  metadata from this file.
 type: dataset
-preferred-citation: data
-message: "If you use this database, please cite it as below."
 authors:
-- family-names: "Débarre"
-  given-names: "Florence"
-  orcid: "https://orcid.org/0000-0003-2497-833X"
-title: "Wuhan epi-curves"
-url: "https://github.com/flodebarre/covid_firstCases"
+  - given-names: Florence
+    family-names: Débarre
+    orcid: 'https://orcid.org/0000-0003-2497-833X'
