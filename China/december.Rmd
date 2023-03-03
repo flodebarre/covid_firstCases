@@ -1,0 +1,128 @@
+---
+title: "December cases"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r inits}
+# Set working directory
+wd <- getwd()
+if(substr(wd, nchar(wd) - 6, nchar(wd)) != "China/")  setwd("China/")
+
+# Load data
+data <- read.csv("alldata.csv")
+
+datasets <- unique(data$dataset)
+dates <- seq(as.Date("2019-12-01"), as.Date("2019-12-31"), by = "day")
+
+data$date_onset <- as.Date(data$date_onset)
+
+sort(unique(data$date_ref))
+
+# Sort by date
+tmp <- unique(data[, c(1, 2)])
+studies <- tmp[order(tmp$date_ref), ]
+```
+
+```{r}
+initPlot <- function(ymax = 250){
+  par(las = 1, xaxs = "i")
+  par(mar = c(3, 4.5, 2.5, 2))
+  plot(dates, rep(0, length(dates)), type = "n", ylim = c(0, ymax), axes = FALSE, 
+       xlab = "", ylab = "Number of cases")
+  par(xpd = TRUE)
+#  axis(1, pos = 0, at = dates, labels = rep("", length(dates)))
+#  text(dates, rep(0, length(dates)), labels = dates, srt = 90, adj = c(1.2, 0.5), cex = 0.7)
+  text(dates, rep(0, length(dates)), labels = substr(dates, 9, 10), srt = 0, adj = c(0.5, 1.5), cex = 0.6)
+  
+  mtext("Onset date (December 2019)", 1, line = 0.5)
+  axis(2, lwd = 0, lwd.ticks = 1, pos = min(dates) - 0.4)
+}
+initPlot()
+```
+
+```{r}
+
+col <- "red"
+lwd <- 1.5
+
+plotData <- function(dataset, col = "red", lwd = 1.75, addNum = TRUE, addLegend = TRUE){
+  # dataset: name of the dataset
+  # col: color of the lines
+  # lwd: line width
+  
+  # Extract the corresponding data
+  subdat <- data[data$dataset == dataset, ]
+  # Turn NAs into zeros
+  subdat[is.na(subdat)] <- 0
+  
+  # Add data
+  # Confirmed cases
+  ltyy <- ifelse(is.element(dataset, c("QuianJie2020", "FangLi2021")), 2, 1)
+  points(subdat$date_onset, cumsum(subdat$nbCases_confirmed), type = "s", col = col, lwd = lwd, lty = ltyy)
+  # Confirmed and clinically diagnosed
+  points(subdat$date_onset, cumsum(subdat$nbCases_confirmed) + cumsum(subdat$nbCases_clinDiag), type = "s", lty = 2, col = col, lwd = lwd)
+  
+  # Add numerical values
+  if(addNum){
+    text(rep(max(dates), 2), sum(subdat$nbCases_confirmed) + c(0, sum(subdat$nbCases_clinDiag)), labels = sum(subdat$nbCases_confirmed) + c(0, sum(subdat$nbCases_clinDiag)), cex = 0.8, adj = c(-0.2, 0.5), col = col)
+  }
+  
+  if(addLegend){
+    # Add legend
+    legCol <- gray(0.5)
+    legLwd <- 1.5
+    #  if(sum(subdat$nbCases_clinDiag)>0){
+    legend(x = "topleft", lty = c(1, 2), legend = c("confirmed", "confirmed + clinically diagnosed"), bty = "n", col = legCol, lwd = legLwd)
+    #  }else{
+    #    legend(x = "topleft", lty = c(1), legend = c("confirmed"), bty = "n", col = legCol, lwd = legLwd)
+    #  }
+    
+  }
+  
+}
+
+# Initialize plot
+initPlot()
+# Plot empty horizontal axis
+points(range(dates), rep(0, 2), col = "black", type = "l")
+
+plotData("WHO2020", col = gray(0.7), addNum = FALSE, lwd = 1)
+plotData("WHO2021")
+```
+
+```{r}
+# Plot the focal and the previous curves
+plotUntil <- function(imax){
+  # Initialize plot
+  initPlot(ymax = 225)
+  # Plot empty horizontal axis
+  points(range(dates), rep(0, 2), col = "black", type = "l")
+  
+  # Add previous datasets
+  for(i in 1:(imax - 1)){
+    dataset <- studies[i, 1]
+    plotData(dataset, col = gray(0.7), addNum = FALSE, lwd = 1, addLegend = FALSE)
+  }
+  # Add focal dataset
+  plotData(studies[imax, 1])
+  
+  # Title of the plot
+  title(main = paste(studies[imax, 1], "
+", studies[imax, 2]), cex = 0.6, line = 0)
+  
+}
+
+system("rm epicurves_*")
+for(imax in 1:nrow(studies)){
+  png(paste0("epicurves_", formatC(imax, width = 2, flag = "0"), ".png"), width = 8, height = 4.5, units = "in", res = 250)
+  plotUntil(imax)
+  dev.off()
+}
+
+system("convert -delay 100 -loop 0 epicurves*.png epicurves.gif")
+
+```
+
+
