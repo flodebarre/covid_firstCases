@@ -1,17 +1,27 @@
 ---
 title: "December cases"
-output: html_notebook
-editor_options: 
+output:
+  html_document:
+    keep_md: yes
+    df_print: paged
+editor_options:
   chunk_output_type: console
 ---
 
-```{r inits}
+# Initializations
+
+```{r, eval = FALSE}
 # Set working directory
 wd <- getwd()
 if(substr(wd, nchar(wd) - 6, nchar(wd)) != "China/")  setwd("China/")
+```
 
+```{r inits}
 # Load data
 data <- read.csv("alldata.csv")
+
+# Add column for sum of confirmed and clinically diagnosed
+data$nbCases_CCC <- data$nbCases_confirmed + data$nbCases_clinDiag
 
 datasets <- unique(data$dataset)
 dates <- seq(as.Date("2019-12-01"), as.Date("2019-12-31"), by = "day")
@@ -25,16 +35,19 @@ tmp <- unique(data[, c(1, 2)])
 studies <- tmp[order(tmp$date_ref), ]
 ```
 
+# Plot epi curves
+
 ```{r}
-initPlot <- function(ymax = 250){
+initPlot <- function(ymax = 250, xticks = 1){
   par(las = 1, xaxs = "i")
-  par(mar = c(3, 4.5, 2.5, 2))
+  par(mar = c(3.5, 4.5, 2.5, 2))
   plot(dates, rep(0, length(dates)), type = "n", ylim = c(0, ymax), axes = FALSE, 
        xlab = "", ylab = "Number of cases")
   par(xpd = TRUE)
 #  axis(1, pos = 0, at = dates, labels = rep("", length(dates)))
 #  text(dates, rep(0, length(dates)), labels = dates, srt = 90, adj = c(1.2, 0.5), cex = 0.7)
-  text(dates, rep(0, length(dates)), labels = substr(dates, 9, 10), srt = 0, adj = c(0.5, 1.5), cex = 0.6)
+  ii <- seq(1, 31, by = xticks)
+  text(dates[ii], rep(0, length(dates[ii])), labels = substr(dates[ii], 9, 10), srt = 0, adj = c(0.5, 1.5), cex = 0.7)
   
   mtext("Onset date (December 2019)", 1, line = 0.5)
   axis(2, lwd = 0, lwd.ticks = 1, pos = min(dates) - 0.4)
@@ -47,7 +60,7 @@ initPlot()
 col <- "red"
 lwd <- 1.5
 
-plotData <- function(dataset, col = "red", lwd = 1.75, addNum = TRUE, addLegend = TRUE){
+plotData <- function(dataset, col = "red", lwd = 1.75, addNum = TRUE, addLegend = TRUE, legCol = gray(0.5)){
   # dataset: name of the dataset
   # col: color of the lines
   # lwd: line width
@@ -59,6 +72,7 @@ plotData <- function(dataset, col = "red", lwd = 1.75, addNum = TRUE, addLegend 
   
   # Add data
   # Confirmed cases
+    # Change line type for the studies showing CC in confirmed
   ltyy <- ifelse(is.element(dataset, c("QuianJie2020", "FangLi2021")), 2, 1)
   points(subdat$date_onset, cumsum(subdat$nbCases_confirmed), type = "s", col = col, lwd = lwd, lty = ltyy)
   # Confirmed and clinically diagnosed
@@ -71,7 +85,6 @@ plotData <- function(dataset, col = "red", lwd = 1.75, addNum = TRUE, addLegend 
   
   if(addLegend){
     # Add legend
-    legCol <- gray(0.5)
     legLwd <- 1.5
     #  if(sum(subdat$nbCases_clinDiag)>0){
     legend(x = "topleft", lty = c(1, 2), legend = c("confirmed", "confirmed + clinically diagnosed"), bty = "n", col = legCol, lwd = legLwd)
@@ -89,7 +102,25 @@ initPlot()
 points(range(dates), rep(0, 2), col = "black", type = "l")
 
 plotData("WHO2020", col = gray(0.7), addNum = FALSE, lwd = 1)
-plotData("WHO2021")
+
+
+```
+
+```{r}
+thecol <- met.brewer("Egypt", 1)
+
+for(dataset in studies$dataset){
+  png(paste0("figs/epi_", dataset, ".png"), width = 4, height = 3.5, units = "in", res = 200)
+  par(mar = c(2, 2.5, 0, 1), mgp = c(3, 0.6, 0.1))
+  initPlot(ymax = 225, xticks = 2)
+  # Plot empty horizontal axis
+  points(range(dates), rep(0, 2), col = "black", type = "l")
+  aL <- ifelse(dataset == "WCDC2019", TRUE, FALSE)
+  plotData(dataset, col = thecol, addNum = TRUE, lwd = 1.5, legCol = thecol, addLegend = aL)
+  title(dataset)
+  dev.off()
+  
+}
 ```
 
 ```{r}
@@ -114,15 +145,266 @@ plotUntil <- function(imax){
   
 }
 
-system("rm epicurves_*")
+plotUntil(12)
+
+system("rm figs/epicurves*")
 for(imax in 1:nrow(studies)){
-  png(paste0("epicurves_", formatC(imax, width = 2, flag = "0"), ".png"), width = 8, height = 4.5, units = "in", res = 250)
+  png(paste0("figs/epicurves_", formatC(imax, width = 2, flag = "0"), ".png"), width = 8, height = 4.5, units = "in", res = 250)
   plotUntil(imax)
   dev.off()
 }
 
-system("convert -delay 100 -loop 0 epicurves*.png epicurves.gif")
+system("convert -delay 100 -loop 0 figs/epicurves*.png figs/epicurves.gif")
 
 ```
 
+# Compute intermediate cumulative cases
+
+```{r}
+keydates <- as.Date(c("2019-12-15", "2019-12-22", "2019-12-29"))
+
+cumSumsKeyDates <- function(dataset, kd = keydates){
+  # Extract the corresponding data
+  subdat <- data[data$dataset == dataset, ]
+  # Turn NAs into zeros
+  subdat[is.na(subdat)] <- 0
+
+  # Compute cumulative sums for each column
+  tmp <- cbind(subdat[, 1:3], apply(subdat[, 4:7], 2, cumsum))
+  # Row indices of the key dates
+  indices <- vapply(kd, function(z) sum(tmp$date_onset <= z), 1)
+  tmp <- tmp[indices, ]
+  tmp <- cbind(tmp, nbCases_CCC = tmp$nbCases_confirmed + tmp$nbCases_clinDiag)
+  tmp
+}
+
+studies
+  
+cumSumsKeyDates("WHO2020")
+cumSumsKeyDates("QuianJie2020")
+cumSumsKeyDates("Pan2020")
+cumSumsKeyDates("FangLi2021")
+cumSumsKeyDates("WHO2021")
+
+```
+
+```{r}
+# Load Wei data
+datWei <- read.csv("Wei-etal_2020/Wei2020.csv")
+head(datWei)
+```
+
+```{r, fig.width = 8, fig.height = 4.5}
+# Define colors
+library("MetBrewer")
+#cols <- met.brewer("Java", n = 5, type = "discrete")
+cols <- met.brewer("Egypt", n = 4, type = "discrete")
+#cols
+colWHO <- cols[2]
+colWei <- gray(0.6)
+colPan <- cols[3]
+colFL <- cols[1]
+colHao <- cols[4]
+
+png("figs/comparison_withWHO.png", width = 8, height = 6, res = 200, units = "in")
+# Initialize plot
+initPlot(ymax = 175)
+# Plot empty horizontal axis
+points(range(dates), rep(0, 2), col = "black", type = "l")
+
+# Add focal dataset
+plotData("WHO2021", col = colWHO, addLegend = FALSE, addNum = TRUE)
+
+pchWei <- 16
+legend(x = "topleft", lty = c(1, 2, 0), legend = c("WHO2021 lab-confirmed", "WHO2021 lab-confirmed & clinically diagnosed", "Wei et al."), bty = "n", col = c(colWHO, colWHO, colWei), lwd = 2, pch = c(NA, NA, pchWei))
+
+#plotData("WHO2020", col = 3)
+
+# Add Cao datapoints
+points(as.Date(datWei$date_end), cumsum(datWei$nb_HCW + datWei$nb_NHCW), pch = pchWei, col = colWei, lwd = 3, cex = 1.2)
+
+# Add Cao values
+text(as.Date(datWei$date_end)+0.4, cumsum(datWei$nb_HCW + datWei$nb_NHCW), labels = cumsum(datWei$nb_HCW + datWei$nb_NHCW), cex = 0.8, adj = c(0, 0.5), col = colWei)
+
+    
+# Title of the plot
+title(main = "Cumulative number of cases, Dec 2019", cex = 0.6)
+dev.off()
+```
+
+# With more data
+
+## Load longer datasets
+
+```{r}
+# Pan data for 2020
+datPan <- read.csv("Pan-etal_2020/Pan2020_2020data.csv")
+head(datPan)
+
+# Hao for 2020
+datHao <- read.csv("Hao-etal_2020/HaoFull.csv")
+datHao$date_onset <- as.Date(datHao$date_onset)
+
+# Fang Li data
+datFL <- read.csv("FangLi-etal_2021/Data_For_Plot_Epidemic_Curve.csv")
+head(datFL)
+datFL$date_onset <- as.Date(datFL$onset)
+
+```
+
+## Compute sums over intervals
+
+```{r}
+# Compute sums of cases for each interval
+sumItv <- function(i, dat, colname){
+  # dat: dataset
+  # Get indices for dates in the interval
+  indices <- which(dat$date_onset >= as.Date(datWei$date_begin[i]) & dat$date_onset <= as.Date(datWei$date_end[i]))
+  # Compute sum of cases
+  sum(dat[indices, colname])
+}
+
+# FangLi
+interValsFL <- vapply(seq_len(nrow(datWei)), sumItv, 1, datFL, "all_case") 
+
+# Hao
+interValsHao <- vapply(seq_len(nrow(datWei)), sumItv, 1, datHao, "nbCases_confirmed") 
+
+# Pan
+tmp <- data[data$dataset == "Pan2020", ]
+cols <- c("date_onset", "nbCases_confirmed", "nbCases_clinDiag")
+tmp <- rbind(tmp[, cols], datPan[, cols])
+tmp$nbCases_CCC <- tmp$nbCases_confirmed + tmp$nbCases_clinDiag
+interValsPanC <- vapply(seq_len(nrow(datWei)), sumItv, 1, tmp, "nbCases_confirmed") 
+interValsPanCCC <- vapply(seq_len(nrow(datWei)), sumItv, 1, tmp, "nbCases_CCC") 
+
+# WHO2021
+tmp <- data[data$dataset == "WHO2021", ]
+interValsWHOC <- vapply(seq_len(nrow(datWei)), sumItv, 1, tmp, "nbCases_confirmed") 
+interValsWHOCCC <- vapply(seq_len(nrow(datWei)), sumItv, 1, tmp, "nbCases_CCC") 
+
+# Add the data in a single dataset
+datWei2 <- cbind(datWei, nb_cases = datWei$nb_HCW + datWei$nb_NHCW)
+datWei2$nb_FL <- interValsFL
+datWei2$nb_Hao <- interValsHao
+datWei2$nb_PanC <- interValsPanC
+datWei2$nb_PanCCC <- interValsPanCCC
+datWei2$nb_WHOC <- interValsWHOC
+datWei2$nb_WHOCCC <- interValsWHOCCC
+```
+
+## Plot 
+
+```{r}
+xx <- as.Date(datWei2$date_begin)
+
+ymin <- 7
+ymax <- max(datWei2$nb_FL)
+mar2 <- c(3.5, 4.5, 2.5, 2) # margins
+mgp2 <- c(2.5, 0.55, 0.1) # mgp parameter
+
+png("figs/comparison_datasets.png", width = 8, height = 6, units = "in", res = 200)
+imax <- length(xx) - 4
+par(mar = mar2, las = 1, mgp = mgp2)
+plot(xx[1:imax], datWei2$nb_cases[1:imax], log = "y", col = colWei, axes = FALSE, ylim = c(ymin, ymax), 
+     xlab = "", ylab = "Number of cases", 
+     pch = 16, cex = 1.4)
+
+lines(as.Date(range(datWei2$date_begin[1:imax])) + c(-1, 0), c(ymin, ymin))
+axis(2, pos = min(as.Date(datWei2$date_begin)) - imax/6)
+par(xpd = TRUE)
+text(x = as.Date(datWei2$date_begin)[1:imax], y = rep(ymin, nrow(datWei2))[1:imax], labels = paste(format.Date(datWei2$date_begin, "%d %b"), format.Date(datWei2$date_end, "%d %b"), sep = " to ")[1:imax], srt = 40, cex = 0.8, adj = c(1.1, 0.5))
+
+pchCCC <- 5
+pchC <- 2
+lwdData <- 1.5
+xFL <- -0.5
+points(xx[1:imax] + xFL, datWei2$nb_FL[1:imax], col = colFL, pch = pchCCC, lwd = lwdData)
+
+points(xx[1:imax] + xFL, datWei2$nb_Hao[1:imax], col = colHao, pch = pchC, lwd = lwdData)
+
+xPan <- +0.5
+points(xx[1:imax] + xPan, datWei2$nb_PanC[1:imax], col = colPan, pch = pchC, lwd = lwdData)
+points(xx[1:imax] + xPan, datWei2$nb_PanCCC[1:imax], col = colPan, pch = pchCCC, lwd = lwdData)
+
+imax <- 3 # We do not have more for WHO
+points(xx[1:imax], datWei2$nb_WHOC[1:imax], col = colWHO, pch = pchC, lwd = lwdData)
+points(xx[1:imax], datWei2$nb_WHOCCC[1:imax], col = colWHO, pch = pchCCC, lwd = lwdData)
+
+legend(x = xx[1], y = ymax, col = c(colWei, colFL, colPan, colHao, colWHO, gray(0.2), gray(0.2)), 
+       legend = c("Wei et al. (Feb 27)", "FangLi et al. (after Apr 18)", "Pan et al. (March 09)", "Hao et al. (March 09)",  "WHO 2021", "lab confirmed cases only", "lab confirmed & clinically diagnosed cases"), pch = c(pchWei, 15, 15, 15, 15, pchC, pchCCC), pt.cex = c(1.4, 1, 1, 1, 1, 1, 1), bty = "n", xjust = 0, cex = 0.9)
+
+title(main = "Cases by type (log scale)")
+dev.off()
+
+#--------------------------------------------------------------
+
+png("figs/comparison_WHO.png", width = 6, height = 6, units = "in", res = 200)
+imax <- 3
+ymax <- 100
+ymin <- 0
+par(mar = mar2, las = 1, mgp = mgp2)
+plot(xx[1:imax], datWei2$nb_cases[1:imax], log = "", col = colWei, axes = FALSE, ylim = c(ymin, ymax), 
+     xlab = "", ylab = "Number of cases", 
+     pch = 16, cex = 1.4)
+
+lines(as.Date(range(datWei2$date_begin[1:imax])) + c(-1, 0), c(ymin, ymin))
+axis(2, pos = min(as.Date(datWei2$date_begin)) - imax/6)
+par(xpd = TRUE)
+text(x = as.Date(datWei2$date_begin)[1:imax], y = rep(ymin, nrow(datWei2))[1:imax], labels = paste(format.Date(datWei2$date_begin, "%d %b"), format.Date(datWei2$date_end, "%d %b"), sep = " to ")[1:imax], srt = 40, cex = 0.8, adj = c(1.1, 0.5))
+
+points(xx[1:imax], datWei2$nb_WHOC[1:imax], col = colWHO, pch = pchC, lwd = lwdData)
+points(xx[1:imax], datWei2$nb_WHOCCC[1:imax], col = colWHO, pch = pchCCC, lwd = lwdData)
+
+legend(x = xx[1], y = ymax, 
+       col = c(colWei, colWHO, colWHO), 
+       legend = c("Wei et al. (Feb 27)", "WHO2021, lab confirmed cases only", "WHO2021, lab confirmed & clinically diagnosed cases"), pch = c(pchWei, pchC, pchCCC), pt.cex = c(1.4, 1, 1), bty = "n", xjust = 0, cex = 0.9)
+
+title(main = "Cases by type")
+dev.off()
+
+
+#-----------------------------------
+# LINEAR SCALE
+
+xx <- as.Date(datWei2$date_begin)
+
+ymin <- 0
+ymax <- max(datWei2$nb_FL)
+
+png("figs/comparison_datasets_linear.png", width = 8, height = 6, units = "in", res = 200)
+imax <- length(xx) - 4
+par(mar = mar2, las = 1, mgp = mgp2)
+plot(xx[1:imax], datWei2$nb_cases[1:imax], log = "", col = colWei, axes = FALSE, ylim = c(ymin, ymax), 
+     xlab = "", ylab = "Number of cases", 
+     pch = 16, cex = 1.4)
+
+lines(as.Date(range(datWei2$date_begin[1:imax])) + c(-1, 0), c(ymin, ymin))
+axis(2, pos = min(as.Date(datWei2$date_begin)) - imax/6)
+par(xpd = TRUE)
+text(x = as.Date(datWei2$date_begin)[1:imax], y = rep(ymin, nrow(datWei2))[1:imax], labels = paste(format.Date(datWei2$date_begin, "%d %b"), format.Date(datWei2$date_end, "%d %b"), sep = " to ")[1:imax], srt = 40, cex = 0.8, adj = c(1.1, 0.5))
+
+pchCCC <- 5
+pchC <- 2
+lwdData <- 1.5
+xFL <- -0.5
+points(xx[1:imax] + xFL, datWei2$nb_FL[1:imax], col = colFL, pch = pchCCC, lwd = lwdData)
+
+points(xx[1:imax] + xFL, datWei2$nb_Hao[1:imax], col = colHao, pch = pchC, lwd = lwdData)
+
+xPan <- +0.5
+points(xx[1:imax] + xPan, datWei2$nb_PanC[1:imax], col = colPan, pch = pchC, lwd = lwdData)
+points(xx[1:imax] + xPan, datWei2$nb_PanCCC[1:imax], col = colPan, pch = pchCCC, lwd = lwdData)
+
+imax <- 3 # We do not have more for WHO
+points(xx[1:imax], datWei2$nb_WHOC[1:imax], col = colWHO, pch = pchC, lwd = lwdData)
+points(xx[1:imax], datWei2$nb_WHOCCC[1:imax], col = colWHO, pch = pchCCC, lwd = lwdData)
+
+legend(x = xx[1], y = ymax, col = c(colWei, colFL, colPan, colHao, colWHO, gray(0.2), gray(0.2)), 
+       legend = c("Wei et al. (Feb 27)", "FangLi et al. (after Apr 18)", "Pan et al. (March 09)", "Hao et al. (March 09)",  "WHO 2021", "lab confirmed cases only", "lab confirmed & clinically diagnosed cases"), pch = c(pchWei, 15, 15, 15, 15, pchC, pchCCC), pt.cex = c(1.4, 1, 1, 1, 1, 1, 1), bty = "n", xjust = 0, cex = 0.9)
+
+title(main = "Cases by type")
+dev.off()
+
+```
 
