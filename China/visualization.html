@@ -30,7 +30,7 @@
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 <center><div id="selectData"></div></center>
-<div style="float: right;" id="filters"></div> 
+<div style="float: right;" id="filters"></div>
 <figure class="highcharts-figure">
     <div id="container"></div>
     <p class="highcharts-description">
@@ -44,7 +44,7 @@
     <!--[if lt IE 9]>
       <script src="https://code.highcharts.com/modules/oldie.js"></script>
     <![endif]-->
-    
+
 <script defer type="text/javascript">
 
 "use strict";
@@ -53,7 +53,7 @@
 var dataSets = {
 	"Huang Thelancet": {
 		url:"https://flodebarre.github.io/covid_firstCases/China/Huang-etal_2020/data_Huang2020.csv",
-		columns:["cases_HuananExposure","cases_NoHuananExposure"] 
+		columns:["cases_HuananExposure","cases_NoHuananExposure"]
 	},
 	"Li Nejm":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/Li-etal_2020/data_Li2020.csv",
@@ -69,6 +69,11 @@ var dataSets = {
 		columns:["nb_confirmed","nb_clinicallyDiagnosed","nb_suspected","nb_asymp"],
 		confirmed:["nb_confirmed"]
 	},
+  "Wang 2020":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Wang-etal_2020/data_Wang.csv",
+		columns:["nCases"],
+		confirmed:["nCases"]
+	},
 	"WHO 2021":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/WHO_2021/data_WHO.csv",
 		ind_date:0,
@@ -83,7 +88,7 @@ var dataSets = {
 	"Local CDC 2019":
 	{
 		url:"https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/data_LocalCDC_2019.csv",
-		columns:["nb_cases_Suspected"] 
+		columns:["nb_cases_Suspected"]
 	},
 	"Drastic 2022":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/Drastic_2022/data_Drastic_2022.csv",
@@ -91,15 +96,16 @@ var dataSets = {
 	},
 	"Yang":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/Yang-etal_2020/data_Yang.csv",
-		columns:["nb_cases_Confirmed","nb_cases_Suspected"] 
+		columns:["nb_cases_Confirmed","nb_cases_Suspected"]
 	}
-	
+
 };
 
 var initWithDatasets = ["Huang Thelancet","Li Nejm","WHO 2021 fig 24"];
-var prettyColumns = { 
+var prettyColumns = {
 	"nb_confirmed":"Confirmed",
 	"nb_cases_Confirmed":"Confirmed",
+  "nCases":"Confirmed",
 	"nb_cases_ClinicallyDiagnosed":"Clinically diagnosed",
 	"nb_cases_Suspected":"Suspected",
 	"nb_suspected":"Suspected",
@@ -190,9 +196,9 @@ function parseAndCreateSeriesToDraw(n,text) {
 			for (var j = 0; j < cols.length;j++) data[cols[j]][r[ind_date]]=r[j];
 		}
 	}
-	
+
 	var dates = dayList; //data[dataSets[n].date];
-	
+
 	var tmpSeriesToDraw=[];
 	var columnsTodraw = dataSets[n].columns;
 	//if (onlyConfirmed && dataSets[n].confirmed) columnsTodraw = dataSets[n].confirmed;
@@ -218,15 +224,15 @@ function parseAndCreateSeriesToDraw(n,text) {
 	if (filters["Sum"]) tmpSeriesToDraw = sumStack(n,tmpSeriesToDraw,dates);
 	for (var j = 0; j < tmpSeriesToDraw.length; j++) seriesToDraw.push(tmpSeriesToDraw[j]);
 	N--;
-	
+
 	if (N == 0) {
 		if (filters["Cumulative"]) cumulativeSeries(seriesToDraw);
-		
+
 		Highcharts.chart('container', {
 		  chart: {
 			type: filters["Cumulative"] ? '':'column'
-		  }, 
-		  
+		  },
+
 		  title: {
 			text: 'Timeline by Onsets'
 		  },
@@ -257,7 +263,7 @@ function parseAndCreateSeriesToDraw(n,text) {
 }
 
 function getAndParseDataset(n) {
-	
+
 	function reqListener () {
 		parseAndCreateSeriesToDraw(n,this.responseText);
 	}
@@ -269,7 +275,7 @@ function getAndParseDataset(n) {
 }
 
 function loadDataset() {
-	
+
 	var selectedDatasets = [];
 	var t = sel.querySelectorAll("input");
 	for (var j = 0; j < t.length; j++) {
@@ -277,21 +283,21 @@ function loadDataset() {
 	}
 	N = selectedDatasets.length;
 	seriesToDraw = [];
-	
+
 	for (var j = 0; j < selectedDatasets.length; j++) getAndParseDataset(selectedDatasets[j]);
 	//DrawDataset(n,this.responseText);
 }
-	
+
 loadDataset();
 
-	
-	
+
+
 </script>
 
 
 
     <!--<link href="https://unpkg.com/@picocss/pico@1.3.3/css/pico.slim.min.css" rel="stylesheet"/>-->
-    
+
     <script src="https://unpkg.com/markdown-it@8.4.2/dist/markdown-it.min.js"></script>
 
 <div id="readme" hidden></div>
@@ -310,7 +316,7 @@ loadDataset();
       .then((text) => {
         document.getElementById('readme').innerHTML = md.render(text);
       })
-	  
+
 </script>
 
 <!-- language: lang-html -->

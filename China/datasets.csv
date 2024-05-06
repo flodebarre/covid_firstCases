@@ -4,12 +4,13 @@ Li et al. (2020),Li2020,2020-01-22, NA,2020-01-29,2020-01-22, https://doi.org/10
 Huang et al. (2020),Huang2020, NA, NA,2020-01-24,2020-01-24, https://doi.org/10.1016/S0140-6736(20)30183-5, NA, 1B, Huang-etal_2020/data_Huang2020.csv, confirmed by PCR or NGS.
 Yang et al. (2020),Yang2020,2020-01-26,2020-02-10,2020-02-11,2020-01-26, https://doi.org/10.1101/2020.02.10.20021675, NA, S2, Yang-etal_2020/data_Yang.csv, confirmed or suspected
 China CDC (2020),CCDC2020,2020-02-11, NA,2020-02-21,2020-02-11, https://weekly.chinacdc.cn/en/article/doi/10.46234/ccdcw2020.032, NA,3, CCDC_2020/data_CCDC.csv, confirmed is nucleic acid
-Pan et al. (2020),Pan2020,2020-03-09,2020-04-03,2020-04-03,2020-03-09, http://medrxiv.org/lookup/doi/10.1101/2020.03.03.2003059, NA,1, Pan-etal_2020/data_Wang_medRxiv.csv, NA
-Wang et al. (2020),Wang2020,2020-02-19,2020-03-03,2020-03-06,2020-02-19,http://medrxiv.org/lookup/doi/10.1101/2020.03.03.20030593,NA,1,Pan-etal_2020/data_Wang_medRxiv.csv,NA
+Wang et al. (2020),Wang2020,2020-02-19,2020-03-03,2020-03-06,2020-02-19,https://doi.org/10.1101/2020.03.03.20030593,NA,1,Pan-etal_2020/data_Wang_medRxiv.csv,NA
 WHO (2020),WHO2020,2020-02-20,2020-02-28,2020-02-28,2020-02-20, https://www.who.int/docs/default-source/coronaviruse/who-china-joint-mission-on-covid-19---final-report-1100hr-28feb2020-11mar-update.pdf, NA,2, WHO_2020/data_WHO2020.csv, NA
 Quian Jie (2020),QuianJie2020,2020-02-27, NA,2020-05-01,2020-02-27, https://www.doc88.com/p-19629219677484.html, NA, 4-1, QianJie_2020/QianJie.csv, NA
+Wei et al. (2020),Wei2020,2020-02-27,2020-08-31,2020-09-29,2020-02-27,https://doi.org/10.3390/ijerph17197149,NA,1,Wei-etal_2020/Wei2020.csv,NA
 Pan et al. (2020),Pan2020,2020-03-09, NA,2020-04-03,2020-03-09, https://doi.org/10.1001/jama.2020.6130, NA, S1, Pan-etal_2020/data_Pan2020.csv, NA
 Hao et al. (2020),Hao2020,2020-03-09,2020-04-14,2020-07-10,2020-03-09, https://doi.org/10.1038/s41586-020-2554-8, NA, S2, Hao-etal_2020/data_Hao.csv, confirmed is PCR or NGS
 Fang Li et al (2021),FangLi2020,2020-11-07, NA,2021-01-18,2020-11-07, https://doi.org/10.1016/S1473-3099(20)30981-6, NA, S, FangLi-etal_2021/data_FangLi.csv, NA
 WHO (2021),WHO2021, NA, NA,2021-03-30,2021-03-30, https://www.who.int/docs/default-source/coronaviruse/final-joint-report_origins-studies-6-april-201.pdf, NA,22, WHO_2021/data_WHO.csv, NA
-Pekar et al. (2022),Pekar2022, NA, NA,2022-02-26,2022-02-26, https://www.science.org/doi/10.1126/science.abp8337, NA, S21A, Pekar-etal_2022/data_Pekar2022.csv, NA
+Pekar et al. (2022),Pekar2022, NA, NA,2022-02-26,2022-02-26,https://doi.org/10.1126/science.abp8337, NA, S21A, Pekar-etal_2022/data_Pekar2022.csv, NA
+Wang et al. (2020)b,Wang2020b,2020-03-18,2020-08-06,2020-10-08,2020-03-18,https://doi.org/10.1186/s12931-020-01525-7,NA,"1, S4, S4",Wang-etal_2020/data_Wang.csv,both lab and clinically confirmed
