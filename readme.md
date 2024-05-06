@@ -131,7 +131,15 @@ Data from: figure 1
 
 
 
+## Qian Jie (2020)
 
+Source: <https://www.doc88.com/p-19629219677484.html>
+
+Date:  2020-02-27 (data collection)
+
+![Fig Quian Jie](China/QuianJie_2020/Fig41inset.png)
+
+[Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/QuianJie_2020/data_QuianJie.csv)
 
 ## Hao et al. (2020)
 
@@ -145,6 +153,43 @@ Data from: [Ext figure 2@](https://www.nature.com/articles/s41586-020-2554-8/fig
 
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/Hao-etal_2020/data_Hao.csv)
+
+## Wang et al. (2020)
+
+Source: <https://doi.org/10.1186/s12931-020-01525-7>
+
+Date:  Data extraction: 2020-03-18  
+       Submitted: 2020-08-06
+       Accepted: 2020-09-27  
+       Published: 2020-10-08
+
+Data from: [Fig1](https://respiratory-research.biomedcentral.com/articles/10.1186/s12931-020-01525-7/figures/1), [FigS4-S5](https://ndownloader.figstatic.com/files/25007212)  
+
+Total cases by onset  
+![Fig1](China/Wang-etal_2020/Fig1_Zoom.png)  
+
+Males, by onset  
+![FigS4A](China/Wang-etal_2020/FigS4A-Male_Zoom.png)   
+
+Females, by onset  
+![FigS4B](China/Wang-etal_2020/FigS4A-Female_Zoom.png)   
+
+00-18, by onset  
+![FigS5A](FigS5A-0018_Zoom.png)
+
+19-40, by onset  
+![FigS5B](FigS5B-1940_Zoom.png)
+
+41-60, by onset  
+![FigS5C](FigS5C-4160_Zoom.png)
+
+61-80, by onset  
+![FigS5D](FigS5D-6180_Zoom.png)
+
+81+, by onset  
+![FigS5E](FigS5E-81_Zoom.png)
+
+[Dataset](China/Wang-etal_2020/data_Wang.csv)
 
 
 ## Fang Li et al (2021)
