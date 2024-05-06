@@ -1,4 +1,16 @@
+<!DOCTYPE html>
 <html>
+<head><meta charset="UTF-8">
+	<title>Covid-19 December cases from different sources</title>
+	<meta name="description" content="Covid-19 December cases from different sources"/>
+	<meta name="twitter:card" content="summary_large_image"></meta>
+	<meta property="og:locale" content="en_EN"/>
+	<meta property="og:type" content="article"/>
+	<meta property="og:title" content="Covid-19 December cases from different sources"/>
+	<meta property="og:url" content="https://flodebarre.github.io/covid_firstCases/visualization.html"/>
+	<meta property="og:image" content="https://flodebarre.github.io/covid_firstCases/miniature.jpg"/>
+	<meta property="twitter:image" content="https://flodebarre.github.io/covid_firstCases/miniature.jpg"/>
+</head>
 <body>
     <style>
     body {
@@ -34,7 +46,7 @@
 <figure class="highcharts-figure">
     <div id="container"></div>
     <p class="highcharts-description">
-       Onset curves from different <a href="visualization.html#readme" onclick="javascript:document.getElementById('readme').hidden=false;">sources</a>
+        Onset curves from different <a href="visualization.html#readme" onclick="javascript:document.getElementById('readme').hidden=false;">sources</a> <a href="visualization.html#readme" onclick="javascript:document.getElementById('readme').hidden=false;"><small>[expand]</small></a>
     </p>
 	<div style="float:right;"> <a href="https://github.com/flodebarre/covid_firstCases/">github</a></div>
 </figure>
@@ -51,6 +63,11 @@
 
 
 var dataSets = {
+	"Local CDC 2019":
+	{
+		url:"https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/data_LocalCDC_2019.csv",
+		columns:["nb_cases_Suspected"]
+	},
 	"Huang Thelancet": {
 		url:"https://flodebarre.github.io/covid_firstCases/China/Huang-etal_2020/data_Huang2020.csv",
 		columns:["cases_HuananExposure","cases_NoHuananExposure"]
@@ -58,6 +75,10 @@ var dataSets = {
 	"Li Nejm":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/Li-etal_2020/data_Li2020.csv",
 		columns:["cases_HuananExposure","cases_NoHuananExposure"]
+	},
+	"Yang":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Yang-etal_2020/data_Yang.csv",
+		columns:["nb_cases_Confirmed","nb_cases_Suspected"]
 	},
 	"ChinaCDC 2020":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/CCDC_2020/data_CCDC.csv",
@@ -69,10 +90,25 @@ var dataSets = {
 		columns:["nb_confirmed","nb_clinicallyDiagnosed","nb_suspected","nb_asymp"],
 		confirmed:["nb_confirmed"]
 	},
-  "Wang 2020":{
-		url:"https://flodebarre.github.io/covid_firstCases/China/Wang-etal_2020/data_Wang.csv",
-		columns:["nCases"],
-		confirmed:["nCases"]
+	"Pan 2020 medRxiv":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Pan-etal_2020/data_Wang_medRxiv.csv",
+		columns:["nb_confirmed"],
+		confirmed:["nb_confirmed"]
+	},
+	"Pan 2020":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Pan-etal_2020/data_Pan2020.csv",
+		columns:["nb_cases_Confirmed",	"nb_cases_ClinicallyDiagnosed"],
+		confirmed:["nb_confirmed"]
+	},
+	"Hao 2020":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Hao-etal_2020/data_Hao.csv",
+		columns:["nb_Wuhan"],
+		confirmed:["nb_Wuhan"]
+	},
+	"Li 2020 LancetID":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/FangLi-etal_2021/data_FangLi.csv",
+		columns:["nb_confirmed"],
+		confirmed:["nb_confirmed"]
 	},
 	"WHO 2021":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/WHO_2021/data_WHO.csv",
@@ -85,27 +121,21 @@ var dataSets = {
 		ind_date:0,
 		columns:["nb_Cases_MarketExposure","nb_Cases_NoMarket"]
 	},
-	"Local CDC 2019":
-	{
-		url:"https://flodebarre.github.io/covid_firstCases/China/LocalCDC_2019/data_LocalCDC_2019.csv",
-		columns:["nb_cases_Suspected"]
+	"Pekar 2022":{
+		url:"https://flodebarre.github.io/covid_firstCases/China/Pekar-etal_2022/data_Pekar2022.csv",
+		columns:["nb_confirmed"]
 	},
 	"Drastic 2022":{
 		url:"https://flodebarre.github.io/covid_firstCases/China/Drastic_2022/data_Drastic_2022.csv",
 		columns:["nb_Huanan","nb_nonHuanan"]
 	},
-	"Yang":{
-		url:"https://flodebarre.github.io/covid_firstCases/China/Yang-etal_2020/data_Yang.csv",
-		columns:["nb_cases_Confirmed","nb_cases_Suspected"]
-	}
-
 };
 
-var initWithDatasets = ["Huang Thelancet","Li Nejm","WHO 2021 fig 24"];
+var initWithDatasets = ["ChinaCDC 2020", "WHO 2020", "Pan 2020", "Li 2020 LancetID", "WHO 2021"];
 var prettyColumns = {
 	"nb_confirmed":"Confirmed",
 	"nb_cases_Confirmed":"Confirmed",
-  "nCases":"Confirmed",
+	"nb_Wuhan":"Confirmed",
 	"nb_cases_ClinicallyDiagnosed":"Clinically diagnosed",
 	"nb_cases_Suspected":"Suspected",
 	"nb_suspected":"Suspected",
@@ -255,7 +285,10 @@ function parseAndCreateSeriesToDraw(n,text) {
 		  plotOptions: {
 			column: {
 			  stacking: filters["Cumulative"] ? '':'normal'
-			}
+			},
+			series: {
+				animation: false
+		  }
 		  },
 		  series: seriesToDraw
 		});
