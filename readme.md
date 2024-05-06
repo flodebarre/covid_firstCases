@@ -137,7 +137,7 @@ Source: <https://www.doc88.com/p-19629219677484.html>
 
 Date:  2020-02-27 (data collection)
 
-![Fig Quian Jie](China/QuianJie_2020/Fig41inset.png)
+![Fig Quian Jie](China/QianJie_2020/Fig41inset.png)
 
 [Dataset](https://github.com/flodebarre/covid_firstCases/blob/main/China/QuianJie_2020/data_QuianJie.csv)
 
@@ -172,22 +172,22 @@ Males, by onset
 ![FigS4A](China/Wang-etal_2020/FigS4A-Male_Zoom.png)   
 
 Females, by onset  
-![FigS4B](China/Wang-etal_2020/FigS4A-Female_Zoom.png)   
+![FigS4B](China/Wang-etal_2020/FigS4B-Female_Zoom.png)   
 
 00-18, by onset  
-![FigS5A](FigS5A-0018_Zoom.png)
+![FigS5A](China/Wang-etal_2020/FigS5A-0018_Zoom.png)
 
 19-40, by onset  
-![FigS5B](FigS5B-1940_Zoom.png)
+![FigS5B](China/Wang-etal_2020/FigS5B-1940_Zoom.png)
 
 41-60, by onset  
-![FigS5C](FigS5C-4160_Zoom.png)
+![FigS5C](China/Wang-etal_2020/FigS5C-4160_Zoom.png)
 
 61-80, by onset  
-![FigS5D](FigS5D-6180_Zoom.png)
+![FigS5D](China/Wang-etal_2020/FigS5D-6180_Zoom.png)
 
 81+, by onset  
-![FigS5E](FigS5E-81_Zoom.png)
+![FigS5E](China/Wang-etal_2020/FigS5E-81_Zoom.png)
 
 [Dataset](China/Wang-etal_2020/data_Wang.csv)
 
